@@ -8,16 +8,19 @@ import '../../features/auth/presentation/login_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/showcase/presentation/components_showcase_screen.dart';
 
-import 'auth_listenable.dart';
+import '../../features/auth/presentation/providers/auth_controller.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  // Listen to auth state to trigger redirects
-  final authState = ref.watch(authProvider);
+  // Listen to valid or null user (AsyncValue)
+  final authState = ref.watch(authStateProvider);
 
   return GoRouter(
     initialLocation: '/', // Start at home, let redirect handle login check
     redirect: (context, state) {
-      final isLoggedIn = authState.isAuthenticated;
+      // If loading or error, don't redirect yet (or handle accordingly)
+      if (authState.isLoading || authState.hasError) return null;
+
+      final isLoggedIn = authState.valueOrNull != null;
       final path = state.uri.toString();
       final isLoggingIn = path == '/login';
       final isShowcase = path == '/showcase';
