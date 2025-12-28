@@ -1,9 +1,7 @@
 name: Build & Deploy Flutter Web to Vercel
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
