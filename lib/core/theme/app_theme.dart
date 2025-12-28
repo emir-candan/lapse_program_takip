@@ -6,28 +6,29 @@ class AppTheme {
   AppTheme._();
 
   // ==============================================================================
-  // 🎛️ CONTROL PANEL
-  // Define *WHAT* the design should be here.
+  // 🎛️ KONTROL PANELİ
   // ==============================================================================
 
-  // 1. BRAND COLORS (Indigo / "Stripe-like" Purple-Blue for Trust)
-  static const Color _brandColor = Color(0xFF4F46E5); // Indigo 600
+  // 1. MARKA RENKLERİ (GÜNCELLENDİ: Işığa Göre Değişen Yeşil) 🟢
+  // Light Mode için canlı yeşil
+  static const Color _brandColorLight = Color(0xFF079F00); 
+  // Dark Mode için %20 daha koyu, göz yormayan tok yeşil
+  static const Color _brandColorDark = Color(0xFF057A00); 
   
-  // 2. BACKGROUNDS (Slate / Cool Greys for Modern Feel)
-  static const Color _lightBg = Color(0xFFF8FAFC); // Slate 50
-  static const Color _darkBg = Color(0xFF020617); // Slate 950
-  static const Color _lightSurface = Color(0xFFFFFFFF); // Pure White
-  static const Color _darkSurface = Color(0xFF0F172A); // Slate 900
+  // 2. ARKA PLANLAR (Zinc - Nötr Griler)
+  static const Color _lightBg = Color(0xFFF8FAFC); 
+  static const Color _lightSurface = Color(0xFFFFFFFF); 
+  static const Color _darkBg = Color(0xFF09090B); 
+  static const Color _darkSurface = Color(0xFF18181B); 
 
-  // 3. TYPOGRAPHY
-  static TextStyle get _mainFont => GoogleFonts.inter(); // Inter is the standard for SaaS
+  // 3. TİPOGRAFİ (Montserrat)
+  static TextStyle get _mainFont => GoogleFonts.montserrat();
 
-  // 4. SHAPES (Radius & Borders)
-  // Change these to instantly reshape the entire app
-  static const double _defaultRadius = 12.0; // Slightly tighter for "Pro" feel
-  static const double _borderWidth = 1.0; // Thinner borders are more elegant 
+  // 4. ŞEKİLLER
+  static const double _defaultRadius = 12.0;
+  static const double _borderWidth = 1.0;
 
-  // 5. SHADOWS & ELEVATION
+  // 5. GÖLGELER
   static final List<BoxShadow> _cardShadow = [
     BoxShadow(
       color: Colors.black.withOpacity(0.08),
@@ -58,35 +59,26 @@ class AppTheme {
     ),
   ];
 
-  // ==============================================================================
-  // 6. EXPOSED TOKENS (For Components)
-  // Components should access these via AppTheme.tokens...
-  // ==============================================================================
-  
+  // 6. TOKENLER
   static const _AppTokens tokens = _AppTokens();
 
   // ==============================================================================
-  // 🚀 LAUNCH THEME
-  // Do not modify below. Logic is handled in AppDesignSystem.
+  // 🚀 TEMAYI BAŞLAT
   // ==============================================================================
 
   static final lightTheme = AppDesignSystem.getStrictTheme(
     isDarkMode: false,
-    brandColor: _brandColor,
+    brandColor: _brandColorLight, // Canlı Yeşil
     backgroundColor: _lightBg,
     surfaceColor: _lightSurface,
     fontStyle: _mainFont,
     defaultRadius: _defaultRadius,
     borderWidth: _borderWidth,
-  ).copyWith(
-    // We can inject custom shadows into the theme extension if needed, 
-    // or just use static access for specific custom components.
-    // For now, let's keep it simple.
   );
 
   static final darkTheme = AppDesignSystem.getStrictTheme(
     isDarkMode: true,
-    brandColor: _brandColor,
+    brandColor: _brandColorDark, // Tok Yeşil
     backgroundColor: _darkBg,
     surfaceColor: _darkSurface,
     fontStyle: _mainFont,
@@ -95,33 +87,34 @@ class AppTheme {
   );
 }
 
-// Immutable Tokens Class
+// Token sınıfı aynen kalıyor...
 class _AppTokens {
   const _AppTokens();
-
-  final double spacingXs = 4.0;
-  final double spacingSm = 8.0;
-  final double spacingMd = 16.0;
-  final double spacingLg = 24.0;
-  final double spacingXl = 32.0;
-
-  final double radiusSm = 8.0;
-  final double radiusMd = 12.0; // Matches _defaultRadius
-  final double radiusLg = 16.0;
   
-  // Shadows (Getter to handle potential logic or just raw exposure)
+  static const double _baseSpacing = 8.0; 
+  static const double _baseRadius = 12.0; 
+
+  final double spacingXs = _baseSpacing / 2;
+  final double spacingSm = _baseSpacing;
+  final double spacingMd = _baseSpacing * 2;
+  final double spacingLg = _baseSpacing * 3;
+  final double spacingXl = _baseSpacing * 4;
+
+  final double radiusSm = _baseRadius - 4.0;
+  final double radiusMd = _baseRadius;
+  final double radiusLg = _baseRadius + 4.0;
+
   List<BoxShadow> get cardShadowLight => AppTheme._cardShadow;
   List<BoxShadow> get cardShadowDark => AppTheme._cardShadowDark;
 
-  // Component Specifics (Strictly centralized)
   final FontWeight buttonTextWeight = FontWeight.w600;
   final EdgeInsets inputContentPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
   final bool inputIsDense = true;
 
-  // Segmented Control
-  final EdgeInsets segmentedControlPadding = const EdgeInsets.all(4);
-  final EdgeInsets segmentedControlInnerPadding = const EdgeInsets.symmetric(vertical: 8);
-  final double segmentedControlRadius = 8.0;
+  EdgeInsets get segmentedControlPadding => EdgeInsets.all(spacingXs);
+  EdgeInsets get segmentedControlInnerPadding => EdgeInsets.symmetric(vertical: spacingSm);
+  double get segmentedControlRadius => radiusSm;
+  
   List<BoxShadow> get segmentedControlShadow => [
     BoxShadow(
       color: Colors.black.withOpacity(0.1),
@@ -130,64 +123,50 @@ class _AppTokens {
     )
   ];
 
-  // Tag Input & Display
-  final double tagSpacing = 8.0;
+  double get tagSpacing => spacingSm;
   final double tagIconSize = 14.0;
-  final double tagRadius = 4.0; // Standard small tag radius
+  double get tagRadius => radiusXs; 
+  final double radiusXs = 4.0;
 
-  // Layout - Card
-  final EdgeInsets cardPadding = const EdgeInsets.all(24.0);
+  EdgeInsets get cardPadding => EdgeInsets.all(spacingLg);
+  double get formLabelSpacing => spacingSm;
 
-  // Forms - Checkbox & Radio
-  final double formLabelSpacing = 8.0;
-  
-  // Forms - Slider
   final double sliderTrackHeight = 6.0;
   final double sliderThumbRadius = 10.0;
   final double sliderOverlayRadius = 20.0;
   final double sliderInactiveTrackOpacity = 0.15;
   final double sliderOverlayOpacity = 0.1;
 
-  // Forms - Rating
   final double ratingStarSize = 28.0;
   final double ratingItemPadding = 2.0;
-  final Color ratingActiveColor = const Color(0xFFFFCA28); // Amber 400 manually defined for control
-  final Color ratingInactiveColor = const Color(0xFFE2E8F0); // Slate 200
+  final Color ratingActiveColor = const Color(0xFFFFCA28);
+  final Color ratingInactiveColor = const Color(0xFFE2E8F0);
 
-  // Display - Chip
   final double chipRadius = 100.0;
   final double chipIconSize = 16.0;
 
-  // Navigation - AppBar
   final double appBarHeight = 56.0;
-  final double appBarElevation = 0.0; // Flat style by default
-  // Forms - Code Input
+  final double appBarElevation = 0.0;
+
   final double codeInputWidth = 50.0;
-  final double codeInputSpacing = 4.0;
-  
-  // Forms - File Uploader
+  double get codeInputSpacing => spacingXs;
+
   final double fileUploaderHeight = 120.0;
   final double fileUploaderIconSize = 32.0;
-  
-  // Display - Carousel
+
   final double carouselHeight = 200.0;
   final double carouselItemExtent = 300.0;
-  
-  // Display - Empty State
+
   final double emptyStateIconSize = 64.0;
-  final double emptyStateSpacing = 16.0;
+  double get emptyStateSpacing => spacingMd;
 
-  // Display - Icon Button
-  final double iconButtonPadding = 8.0;
-  final double iconButtonRadius = 8.0; // Fallback if theme borders missing
+  double get iconButtonPadding => spacingSm;
+  double get iconButtonRadius => radiusSm;
   
-  // Display - Image
-  final double imageDefaultRadius = 12.0;
+  double get imageDefaultRadius => radiusMd;
 
-  // Feedback - Loader
   final double loaderSize = 24.0;
   final double loaderStrokeWidth = 3.0;
 
-  // Feedback - Skeleton
-  final double skeletonDefaultRadius = 12.0;
+  double get skeletonDefaultRadius => radiusMd;
 }

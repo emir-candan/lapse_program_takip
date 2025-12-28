@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_design/moon_design.dart';
 import '../../../core/components/components.dart';
-import '../../../core/components/form/app_tag_input.dart';
-import '../../../core/components/form/app_search_bar.dart';
-import '../../../core/components/navigation/app_segmented_control.dart';
 import '../../../core/theme/theme_provider.dart';
 
 class ComponentsShowcaseScreen extends ConsumerStatefulWidget {
@@ -26,6 +23,9 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
   late TabController _tabController;
   int _segmentVal = 0;
 
+  // Chip state demo
+  final List<String> _chips = ["Flutter", "Dart", "Moon Design"];
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +40,7 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
     return Scaffold(
       backgroundColor: context.moonColors?.goku,
       appBar: AppAppBar(
-        title: "Design System",
+        title: "Design System Showcase",
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -70,10 +70,10 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const AppBreadcrumbs(items: [Text("Home"), Text("Settings"), Text("Profile")]),
+                      const AppBreadcrumbs(items: [Text("Home"), Text("Showcase"), Text("All Components")]),
                       const SizedBox(height: 24),
                       AppTabs(
-                        tabs: const [Text("Genel"), Text("Güvenlik"), Text("Bildirimler")],
+                        tabs: const [Text("Genel"), Text("Güvenlik"), Text("Ayarlar")],
                         controller: _tabController,
                       ),
                       const SizedBox(height: 24),
@@ -91,16 +91,18 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Sol Kolon: Text Inputs
                     Expanded(
                       flex: 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildSectionTitle("Form Inputs"),
+                          _buildSectionTitle("Text Inputs"),
                           AppCard(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const AppSearchBar(hintText: "Kullanıcı ara..."),
+                                const AppSearchBar(hintText: "Sistemde ara..."),
                                 const SizedBox(height: 16),
                                 Row(
                                   children: [
@@ -110,18 +112,19 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-                                AppDropdown<String>(
-                                  hintText: "Ülke Seçiniz",
-                                  items: const [
-                                    DropdownMenuItem(value: "TR", child: Text("Türkiye")),
-                                    DropdownMenuItem(value: "US", child: Text("Amerika")),
-                                  ],
-                                  onChanged: (v) {},
+                                AppTextInput(
+                                  hintText: "E-posta", 
+                                  prefixIcon: Icons.email_outlined,
+                                  keyboardType: TextInputType.emailAddress,
                                 ),
                                 const SizedBox(height: 16),
-                                AppTagInput(hintText: "Yetenekler (Enter)", initialTags: const ["Flutter", "Dart"]),
+                                const AppTextArea(hintText: "Bize bir not bırakın (TextArea)...", minLines: 3),
                                 const SizedBox(height: 16),
-                                AppFileUploader(onUpload: (){}),
+                                AppCodeInput(
+                                  length: 4, 
+                                  onCompleted: (v) => setState(() => _codeVal = v),
+                                ),
+                                Center(child: Text("Girilen Kod: $_codeVal", style: const TextStyle(fontSize: 10, color: Colors.grey))),
                               ],
                             ),
                           ),
@@ -129,35 +132,39 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                       ),
                     ),
                     const SizedBox(width: 24),
+                    // Sağ Kolon: Selectors & Pickers
                     Expanded(
                       flex: 3,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildSectionTitle("Interactive"),
+                          _buildSectionTitle("Selectors & Pickers"),
                           AppCard(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("Dark Mode"),
-                                    AppSwitch(value: _switchVal, onChanged: (v) => setState(() => _switchVal = v)),
+                                AppDropdown<String>(
+                                  hintText: "Departman Seçiniz",
+                                  items: const [
+                                    DropdownMenuItem(value: "IT", child: Text("Bilgi İşlem")),
+                                    DropdownMenuItem(value: "HR", child: Text("İnsan Kaynakları")),
+                                    DropdownMenuItem(value: "MKT", child: Text("Pazarlama")),
                                   ],
+                                  onChanged: (v) {},
                                 ),
-                                const AppDivider(),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("Bildirimler"),
-                                    AppCheckbox(value: _checkVal, onChanged: (v) => setState(() => _checkVal = v!), label: ""),
-                                  ],
+                                const SizedBox(height: 16),
+                                AppDatePicker(
+                                  value: _dateVal,
+                                  label: "Doğum Tarihi",
+                                  onChanged: (d) => setState(() => _dateVal = d),
                                 ),
-                                const AppDivider(),
-                                const SizedBox(height: 8),
-                                AppSlider(value: _sliderVal, onChanged: (v) => setState(() => _sliderVal = v)),
-                                Center(child: AppRating(value: _ratingVal, onChanged: (v) => setState(() => _ratingVal = v))),
+                                const SizedBox(height: 16),
+                                AppTagInput(
+                                  hintText: "Yetenekler (Enter)", 
+                                  initialTags: const ["Flutter", "Dart"],
+                                ),
+                                const SizedBox(height: 16),
+                                AppFileUploader(label: "Profil Resmi Yükle", onUpload: (){}),
                               ],
                             ),
                           ),
@@ -169,15 +176,86 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                 
                 const SizedBox(height: 32),
                 
-                // --- 3. DATA DISPLAY ---
-                _buildSectionTitle("Data Display"),
+                // --- 3. INTERACTIVE & TOGGLES ---
+                 _buildSectionTitle("Interactive & Toggles"),
+                 AppCard(
+                   child: Column(
+                     children: [
+                       Row(
+                         children: [
+                           Expanded(
+                             child: Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                 Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     const Text("Karanlık Mod"),
+                                     AppSwitch(value: _switchVal, onChanged: (v) => setState(() => _switchVal = v)),
+                                   ],
+                                 ),
+                                 const SizedBox(height: 16),
+                                 Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     const Text("Bildirimleri Aç"),
+                                     AppCheckbox(value: _checkVal, onChanged: (v) => setState(() => _checkVal = v!), label: ""),
+                                   ],
+                                 ),
+                               ],
+                             ),
+                           ),
+                           Container(width: 1, height: 80, color: context.moonColors?.beerus, margin: const EdgeInsets.symmetric(horizontal: 24)),
+                           Expanded(
+                             child: Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                 const Text("Cinsiyet (Radio):", style: TextStyle(fontWeight: FontWeight.bold)),
+                                 const SizedBox(height: 8),
+                                 Row(
+                                   children: [
+                                     AppRadio<int>(
+                                       value: 1, 
+                                       groupValue: _radioVal, 
+                                       onChanged: (v) => setState(() => _radioVal = v!), 
+                                       label: "Kadın"
+                                     ),
+                                     const SizedBox(width: 16),
+                                     AppRadio<int>(
+                                       value: 2, 
+                                       groupValue: _radioVal, 
+                                       onChanged: (v) => setState(() => _radioVal = v!), 
+                                       label: "Erkek"
+                                     ),
+                                   ],
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ],
+                       ),
+                       const AppDivider(indent: 0, endIndent: 0),
+                       const SizedBox(height: 16),
+                       const Text("Ses Seviyesi (Slider)"),
+                       AppSlider(value: _sliderVal, onChanged: (v) => setState(() => _sliderVal = v)),
+                       const SizedBox(height: 16),
+                       const Text("Memnuniyet (Rating)"),
+                       AppRating(value: _ratingVal, onChanged: (v) => setState(() => _ratingVal = v)),
+                     ],
+                   ),
+                 ),
+
+                const SizedBox(height: 32),
+
+                // --- 4. DATA DISPLAY ---
+                _buildSectionTitle("Data Display & Tables"),
                 AppCard(
                   padding: EdgeInsets.zero,
                   child: AppTable(
                     columns: const [
                       DataColumn(label: Text("ID")),
                       DataColumn(label: Text("Kullanıcı")),
-                      DataColumn(label: Text("Durum")),
+                      DataColumn(label: Text("Durum (Tag)")),
                       DataColumn(label: Text("İşlem")),
                     ],
                     rows: [
@@ -185,53 +263,93 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                         const DataCell(Text("#101")),
                         DataCell(Row(children: const [AppAvatar(imageUrl: "https://i.pravatar.cc/100", size: 24), SizedBox(width: 8), Text("Ali Veli")])),
                         const DataCell(AppTag(label: "Aktif", backgroundColor: Colors.green)),
-                        DataCell(AppIconButton(icon: Icons.more_vert, onTap: (){})),
+                        DataCell(AppIconButton(icon: Icons.edit, onTap: (){})),
                       ]),
                       DataRow(cells: [
                         const DataCell(Text("#102")),
                         DataCell(Row(children: const [AppAvatar(imageUrl: "https://i.pravatar.cc/101", size: 24), SizedBox(width: 8), Text("Ayşe Can")])),
                         const DataCell(AppTag(label: "Beklemede", backgroundColor: Colors.orange)),
-                        DataCell(AppIconButton(icon: Icons.more_vert, onTap: (){})),
+                        DataCell(AppIconButton(icon: Icons.delete, color: Colors.red, onTap: (){})),
                       ]),
                     ],
                   ),
                 ),
                 
                 const SizedBox(height: 32),
-                
-                // --- 4. FEEDBACK & OVERLAY ---
-                _buildSectionTitle("Feedback System"),
-                 Wrap(
-                  spacing: 24, runSpacing: 24,
+
+                // --- 5. FEEDBACK & ALERTS ---
+                _buildSectionTitle("Feedback & Alerts"),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppCard(child: const AppLoader()),
-                    AppCard(child: const AppEmptyState(message: "Veri Yok")),
-                    AppButton(
-                      label: "Başarı Mesajı", 
-                      onTap: () => AppModal.showToast(context: context, message: "İşlem Başarılı! 🚀"),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          const AppAlert(title: "Bilgi", body: "Bu bir bilgilendirme mesajıdır (AppAlert).", showIcon: true),
+                          const SizedBox(height: 16),
+                          AppCard(
+                            child: Wrap(
+                              spacing: 8,
+                              children: _chips.map((c) => AppChip(
+                                label: c, 
+                                onRemove: () => setState(() => _chips.remove(c)),
+                                icon: Icons.check,
+                              )).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    AppButton(
-                      label: "Modal Test", 
-                      onTap: () => AppModal.show(context: context, child: Container(padding: const EdgeInsets.all(32), child: const Text("Modal İçeriği"))),
+                    const SizedBox(width: 24),
+                    Expanded(
+                      child: AppCard(
+                        child: Column(
+                          children: [
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                AppLoader(size: 24),
+                                Text("Yükleniyor..."),
+                              ],
+                            ),
+                            const SizedBox(height: 24),
+                            const AppEmptyState(message: "Veri Bulunamadı (EmptyState)", icon: Icons.inbox),
+                            const SizedBox(height: 16),
+                            Wrap(
+                              spacing: 16,
+                              children: [
+                                AppButton(
+                                  label: "Toast Göster", 
+                                  onTap: () => AppModal.showToast(context: context, message: "İşlem Başarılı! 🚀"),
+                                ),
+                                AppButton(
+                                  label: "Modal Aç", 
+                                  onTap: () => AppModal.show(context: context, child: Container(padding: const EdgeInsets.all(32), child: const Text("Bu bir Modal içeriğidir."))),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
 
                 const SizedBox(height: 32),
 
-                // --- 5. MEDIA & LISTS (The missing ones) ---
+                // --- 6. MEDIA & LISTS ---
                 _buildSectionTitle("Media & Lists"),
                 AppCard(
                   child: Column(
                     children: [
-                      // Carousel & Image
+                      // Carousel
                       SizedBox(
                         height: 200,
                         child: AppCarousel(
                           items: [
-                            AppImage(url: "https://picsum.photos/seed/1/300/200", width: double.infinity, height: 200),
-                            AppImage(url: "https://picsum.photos/seed/2/300/200", width: double.infinity, height: 200),
-                            AppImage(url: "https://picsum.photos/seed/3/300/200", width: double.infinity, height: 200),
+                            AppImage(url: "https://picsum.photos/seed/1/400/200", width: double.infinity, height: 200),
+                            AppImage(url: "https://picsum.photos/seed/2/400/200", width: double.infinity, height: 200),
+                            AppImage(url: "https://picsum.photos/seed/3/400/200", width: double.infinity, height: 200),
                           ],
                         ),
                       ),
@@ -239,19 +357,19 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                       
                       // List Items
                       AppListItem(
-                        title: const Text("List Item 1"),
-                        subtitle: const Text("Açıklama metni buraya gelir."),
-                        leading: const Icon(Icons.folder),
+                        title: const Text("Hesap Ayarları"),
+                        subtitle: const Text("Şifre ve güvenlik işlemlerini buradan yapın."),
+                        leading: const Icon(Icons.security),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: (){},
                       ),
                       const AppDivider(),
                       AppListItem(
-                        title: const Text("List Item 2"),
-                        leading: const Icon(Icons.file_copy),
+                        title: const Text("Hakkında"),
+                        leading: const Icon(Icons.info_outline),
                         trailing: AppTooltip(
-                          message: "Bu bir ipucudur",
-                          child: AppIconButton(icon: Icons.info_outline, onTap: (){}),
+                          message: "Versiyon 1.0.0",
+                          child: AppIconButton(icon: Icons.help_outline, onTap: (){}),
                         ),
                       ),
                       
@@ -285,11 +403,6 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
       ),
     );
   }
-  
-  // Dummies
-  static void _emptyBool(bool v) {}
-  static void _emptyBoolNullable(bool? v) {}
-  static void _emptyIntNullable(int? v) {}
 
   Widget _buildHeader(BuildContext context) {
     return Column(
@@ -297,7 +410,7 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
       children: [
         Text("Design System v1.0", style: context.moonTypography?.heading.text32.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
-        Text("Lapse Program Takip Sistemi'nin yapı taşları.", style: context.moonTypography?.body.text18.copyWith(color: context.moonColors?.textSecondary)),
+        Text("Lapse Program Takip Sistemi - Bileşen Kataloğu", style: context.moonTypography?.body.text18.copyWith(color: context.moonColors?.textSecondary)),
       ],
     );
   }

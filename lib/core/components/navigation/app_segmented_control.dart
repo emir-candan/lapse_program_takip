@@ -48,7 +48,6 @@ class AppSegmentedControl extends StatelessWidget {
             style: TextStyle(
               color: isSelected ? (context.moonColors?.goten ?? Colors.white) : context.moonColors?.textSecondary,
               fontWeight: isSelected ? AppTheme.tokens.buttonTextWeight : FontWeight.normal,
-              fontFamily: AppTheme.tokens.buttonTextWeight.toString().contains("600") ? "Inter" : null, // Font inheritance usually handled by Theme but explicit here
             ),
             child: entry.value, // User provided widget (Text usually)
           ),

@@ -11,6 +11,7 @@ export 'form/app_rating.dart';
 export 'form/app_code_input.dart';
 export 'form/app_date_picker.dart';
 export 'form/app_file_uploader.dart';
+export 'form/app_tag_input.dart';
 
 // Feedback
 export 'feedback/app_loader.dart';
@@ -35,8 +36,7 @@ export 'layout/app_divider.dart';
 export 'navigation/app_tabs.dart';
 export 'navigation/app_breadcrumbs.dart';
 export 'navigation/app_app_bar.dart';
-// export 'navigation/app_bottom_nav.dart'; // To be implemented if standard BottomNavBar needed
-// export 'navigation/app_side_nav.dart'; // To be implemented if standard Drawer needed (usually part of Layout Shell)
+export 'navigation/app_segmented_control.dart';
 
 // Overlay
 export 'overlay/app_modal.dart';
