@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "939391174644",
+    "project_id": "lapse-program-takip",
+    "storage_bucket": "lapse-program-takip.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939391174644:android:7274d61221640609d99ba1",
+        "android_client_info": {
+          "package_name": "com.emircandan.lapse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG1awsR5XhZ-aTIyKLdXreAf9GCFNBQAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
