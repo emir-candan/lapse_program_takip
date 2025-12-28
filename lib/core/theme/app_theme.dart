@@ -5,14 +5,8 @@ import 'app_design_system.dart';
 class AppTheme {
   AppTheme._();
 
-  // ==============================================================================
-  // 🎛️ KONTROL PANELİ
-  // ==============================================================================
-
-  // 1. MARKA RENKLERİ (GÜNCELLENDİ: Işığa Göre Değişen Yeşil) 🟢
-  // Light Mode için canlı yeşil
+  // 1. RENKLER (Light: Canlı, Dark: Tok)
   static const Color _brandColorLight = Color(0xFF079F00); 
-  // Dark Mode için %20 daha koyu, göz yormayan tok yeşil
   static const Color _brandColorDark = Color(0xFF057A00); 
   
   // 2. ARKA PLANLAR (Zinc - Nötr Griler)
@@ -21,54 +15,32 @@ class AppTheme {
   static const Color _darkBg = Color(0xFF09090B); 
   static const Color _darkSurface = Color(0xFF18181B); 
 
-  // 3. TİPOGRAFİ (Montserrat)
+  // 3. TİPOGRAFİ
   static TextStyle get _mainFont => GoogleFonts.montserrat();
 
-  // 4. ŞEKİLLER
+  // 4. ŞEKİLLER & GÖLGELER
   static const double _defaultRadius = 12.0;
   static const double _borderWidth = 1.0;
 
-  // 5. GÖLGELER
   static final List<BoxShadow> _cardShadow = [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.08),
-      offset: const Offset(0, 4),
-      blurRadius: 24,
-      spreadRadius: -2,
-    ),
-    BoxShadow(
-      color: Colors.black.withOpacity(0.04),
-      offset: const Offset(0, 2),
-      blurRadius: 8,
-      spreadRadius: 0,
-    ),
+    BoxShadow(color: Colors.black.withOpacity(0.08), offset: const Offset(0, 4), blurRadius: 24, spreadRadius: -2),
+    BoxShadow(color: Colors.black.withOpacity(0.04), offset: const Offset(0, 2), blurRadius: 8, spreadRadius: 0),
   ];
 
   static final List<BoxShadow> _cardShadowDark = [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.4),
-      offset: const Offset(0, 4),
-      blurRadius: 24,
-      spreadRadius: -2,
-    ),
-    BoxShadow(
-      color: Colors.black.withOpacity(0.2),
-      offset: const Offset(0, 2),
-      blurRadius: 8,
-      spreadRadius: 0,
-    ),
+    BoxShadow(color: Colors.black.withOpacity(0.4), offset: const Offset(0, 4), blurRadius: 24, spreadRadius: -2),
+    BoxShadow(color: Colors.black.withOpacity(0.2), offset: const Offset(0, 2), blurRadius: 8, spreadRadius: 0),
   ];
 
-  // 6. TOKENLER
   static const _AppTokens tokens = _AppTokens();
 
   // ==============================================================================
-  // 🚀 TEMAYI BAŞLAT
+  // 🚀 TEMALARI BAŞLAT (STATİK)
   // ==============================================================================
 
   static final lightTheme = AppDesignSystem.getStrictTheme(
     isDarkMode: false,
-    brandColor: _brandColorLight, // Canlı Yeşil
+    brandColor: _brandColorLight,
     backgroundColor: _lightBg,
     surfaceColor: _lightSurface,
     fontStyle: _mainFont,
@@ -78,7 +50,7 @@ class AppTheme {
 
   static final darkTheme = AppDesignSystem.getStrictTheme(
     isDarkMode: true,
-    brandColor: _brandColorDark, // Tok Yeşil
+    brandColor: _brandColorDark,
     backgroundColor: _darkBg,
     surfaceColor: _darkSurface,
     fontStyle: _mainFont,
@@ -87,10 +59,10 @@ class AppTheme {
   );
 }
 
-// Token sınıfı aynen kalıyor...
+// Token sınıfı değişmedi, aynen kalacak (silmeyin).
 class _AppTokens {
   const _AppTokens();
-  
+  // ... (Eski kodlarınızdaki içerik aynen burada olmalı)
   static const double _baseSpacing = 8.0; 
   static const double _baseRadius = 12.0; 
 

@@ -20,29 +20,25 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* 🎨 TEMA AYARLARI (AppTheme ile Eşitlendi) */
+    /* TEMA AYARLARI */
     :root {
-      /* LIGHT MODE */
       --bg-color: #F8FAFC;
-      --text-color: #0F172A;
       --brand-color: #079F00;
-      /* Canlı Lapse Yeşili */
-      --brand-glow: rgba(7, 159, 0, 0.3);
+      /* Canlı Yeşil */
+      --text-color: #0F172A;
+      --bar-bg: rgba(0, 0, 0, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        /* DARK MODE (Zinc - Nötr Mat Siyah) */
         --bg-color: #09090B;
-        --text-color: #FFFFFF;
-
-        /* GÜNCELLENDİ: Göz yormayan Tok Yeşil (#057A00) */
         --brand-color: #057A00;
-        --brand-glow: rgba(5, 122, 0, 0.2);
-        /* Glow daha soft */
+        /* Tok Yeşil */
+        --text-color: #FFFFFF;
+        --bar-bg: rgba(255, 255, 255, 0.1);
       }
     }
 
@@ -55,42 +51,26 @@
       align-items: center;
       overflow: hidden;
       font-family: 'Montserrat', sans-serif;
-      transition: background-color 0.3s ease;
     }
 
-    .container {
-      position: relative;
+    /* Ana Yükleme Kutusu */
+    #loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
     }
 
-    /* --- LOGO & PULSE EFEKTİ --- */
-    .logo-wrapper {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 120px;
-      height: 120px;
-      margin-bottom: 24px;
-    }
-
-    /* Arkadaki Hareketli Halka */
-    .pulse-ring {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 2px solid var(--brand-color);
-      box-shadow: 0 0 20px var(--brand-glow);
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    /* Ortadaki Sabit Harf veya Logo Alanı */
+    /* Logo & Pulse */
     .logo-circle {
-      position: relative;
       width: 80px;
       height: 80px;
       background: var(--brand-color);
@@ -98,41 +78,57 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 10px 30px var(--brand-glow);
-      z-index: 2;
+      box-shadow: 0 0 30px rgba(7, 159, 0, 0.3);
+      animation: pulse 2s infinite;
+      margin-bottom: 40px;
+      /* Yazılarla mesafe */
     }
 
     .logo-letter {
       color: white;
       font-size: 40px;
-      font-weight: 900;
-      /* Extra Bold */
-      letter-spacing: -2px;
-      padding-right: 4px;
-      /* Optik düzeltme */
-    }
-
-    /* --- MARKALAMA --- */
-    .brand-name {
-      font-size: 24px;
       font-weight: 700;
-      letter-spacing: 4px;
-      /* Modern, geniş aralıklı harfler */
-      color: var(--text-color);
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease-out forwards 0.3s;
     }
 
-    /* --- PROGRESS BAR --- */
+    /* Dönen Yazılar (Sıralı) */
+    .text-wrapper {
+      position: relative;
+      height: 24px;
+      width: 300px;
+      text-align: center;
+      margin-bottom: 24px;
+      /* Progress Bar ile mesafe */
+    }
+
+    .loading-text {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-color);
+      opacity: 0;
+    }
+
+    /* Animasyonlar: 6 Saniyelik döngü */
+    /* 0-3sn arası Birinci Yazı */
+    .text-1 {
+      animation: fadeText1 6s infinite;
+    }
+
+    /* 3-6sn arası İkinci Yazı */
+    .text-2 {
+      animation: fadeText2 6s infinite;
+    }
+
+    /* Progress Bar (Geri Geldi!) */
     .progress-container {
-      width: 200px;
+      width: 160px;
       height: 4px;
-      background-color: rgba(128, 128, 128, 0.2);
+      background-color: var(--bar-bg);
       border-radius: 4px;
       overflow: hidden;
-      opacity: 0;
-      animation: fadeIn 1s ease-out forwards 0.5s;
     }
 
     .progress-bar {
@@ -140,20 +136,26 @@
       width: 100%;
       background-color: var(--brand-color);
       transform: translateX(-100%);
-      animation: loading 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
       border-radius: 4px;
     }
 
-    /* --- ANİMASYONLAR --- */
+    /* --- Keyframes --- */
+
     @keyframes pulse {
       0% {
-        transform: scale(0.8);
-        opacity: 0.8;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(7, 159, 0, 0.4);
+      }
+
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba(7, 159, 0, 0);
       }
 
       100% {
-        transform: scale(1.6);
-        opacity: 0;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(7, 159, 0, 0);
       }
     }
 
@@ -171,28 +173,71 @@
       }
     }
 
-    @keyframes fadeUp {
-      from {
+    /* 1. Yazı Animasyonu (0s - 3s arası görünür) */
+    @keyframes fadeText1 {
+      0% {
         opacity: 0;
         transform: translateY(10px);
       }
 
-      to {
+      10% {
         opacity: 1;
         transform: translateY(0);
       }
+
+      /* Giriş */
+      40% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Bekle */
+      50% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      /* Çıkış */
+      100% {
+        opacity: 0;
+      }
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
+    /* 2. Yazı Animasyonu (3s - 6s arası görünür) */
+    @keyframes fadeText2 {
+
+      0%,
+      50% {
+        opacity: 0;
+        transform: translateY(10px);
       }
+
+      /* Bekle */
+      60% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Giriş */
+      90% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Bekle */
+      100% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      /* Çıkış */
     }
   </style>
 
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
+
     function loadMainDartJs() {
       if (scriptLoaded) { return; }
       scriptLoaded = true;
@@ -200,6 +245,16 @@
       scriptTag.src = 'main.dart.js';
       scriptTag.type = 'application/javascript';
       document.body.append(scriptTag);
+
+      // ✅ TEMİZLEME KODU
+      // 5 saniye sonra veya uygulama yüklenince bu ekranı tamamen yok et.
+      setTimeout(function () {
+        var loader = document.getElementById('loading-container');
+        if (loader) {
+          loader.style.opacity = '0'; // Yavaşça kaybol
+          setTimeout(function () { loader.remove(); }, 500); // HTML'den sil (Logo kalmaz)
+        }
+      }, 5000);
     }
 
     if ('serviceWorker' in navigator) {
@@ -232,16 +287,16 @@
 </head>
 
 <body>
-  <div class="container">
+  <div id="loading-container">
 
-    <div class="logo-wrapper">
-      <div class="pulse-ring"></div>
-      <div class="logo-circle">
-        <span class="logo-letter">L</span>
-      </div>
+    <div class="logo-circle">
+      <span class="logo-letter">L</span>
     </div>
 
-    <div class="brand-name">LAPSE</div>
+    <div class="text-wrapper">
+      <span class="loading-text text-1">Lütfen bekleyin...</span>
+      <span class="loading-text text-2">Sizin için ayarlamaları yapıyoruz...</span>
+    </div>
 
     <div class="progress-container">
       <div class="progress-bar"></div>
