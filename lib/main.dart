@@ -35,6 +35,8 @@ class LapseApp extends ConsumerWidget {
       themeMode: themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      themeAnimationDuration: const Duration(milliseconds: 500),
+      themeAnimationCurve: Curves.easeInOut,
     );
   }
 }
