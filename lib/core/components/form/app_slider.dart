@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppSlider extends StatelessWidget {
   final double value;
@@ -17,12 +17,22 @@ class AppSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MoonSlider(
-      value: value,
-      onChanged: onChanged,
-      min: min,
-      max: max,
-      // theme: if needed
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        trackHeight: AppTheme.tokens.sliderTrackHeight,
+        activeTrackColor: Theme.of(context).primaryColor,
+        inactiveTrackColor: Theme.of(context).primaryColor.withOpacity(AppTheme.tokens.sliderInactiveTrackOpacity),
+        thumbColor: Theme.of(context).primaryColor,
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: AppTheme.tokens.sliderThumbRadius),
+        overlayShape: RoundSliderOverlayShape(overlayRadius: AppTheme.tokens.sliderOverlayRadius),
+        overlayColor: Theme.of(context).primaryColor.withOpacity(AppTheme.tokens.sliderOverlayOpacity),
+      ),
+      child: Slider(
+        value: value,
+        onChanged: onChanged,
+        min: min,
+        max: max,
+      ),
     );
   }
 }

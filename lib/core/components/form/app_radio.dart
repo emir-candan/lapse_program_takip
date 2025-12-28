@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppRadio<T> extends StatelessWidget {
   final T value;
@@ -30,7 +31,7 @@ class AppRadio<T> extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             radio,
-            const SizedBox(width: 8),
+            SizedBox(width: AppTheme.tokens.formLabelSpacing),
             Text(label!, style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),

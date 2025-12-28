@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../theme/app_theme.dart';
 
 /// Standard Text Input for Lapse.
 class AppTextInput extends StatelessWidget {
@@ -7,7 +9,11 @@ class AppTextInput extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onFieldSubmitted;
   final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextAlign textAlign;
 
   const AppTextInput({
     super.key,
@@ -16,7 +22,11 @@ class AppTextInput extends StatelessWidget {
     this.obscureText = false,
     this.controller,
     this.onChanged,
+    this.onFieldSubmitted,
     this.validator,
+    this.keyboardType,
+    this.inputFormatters,
+    this.textAlign = TextAlign.start,
   });
 
   @override
@@ -25,10 +35,16 @@ class AppTextInput extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
       validator: validator,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      textAlign: textAlign,
       decoration: InputDecoration(
         hintText: hintText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon, size: 20) : null,
+        isDense: AppTheme.tokens.inputIsDense,
+        contentPadding: AppTheme.tokens.inputContentPadding,
       ),
     );
   }

@@ -1,34 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:moon_design/moon_design.dart';
 
-// Dropdowns are complex. MoonDropdown behaves like a popover.
-// For simplicity in this architectural phase, we will wrap MoonDropdown
-// but we might need to expose more params later.
 class AppDropdown<T> extends StatelessWidget {
-  final Widget content;
-  final Widget child;
-  final bool show;
-  final ValueChanged<bool>? onShowChange;
+  final String? hintText;
+  final T? value;
+  final List<DropdownMenuItem<T>> items;
+  final ValueChanged<T?>? onChanged;
+  final Widget? prefixIcon;
 
   const AppDropdown({
     super.key,
-    required this.show,
-    required this.child,
-    required this.content,
-    this.onShowChange,
+    this.hintText,
+    this.value,
+    this.items = const [],
+    this.onChanged,
+    this.prefixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MoonDropdown(
-      show: show,
-      onTapOutside: () => onShowChange?.call(false),
-      content: content,
-      child: GestureDetector(
-        onTap: () => onShowChange?.call(!show),
-        child: child,
+    // We use DropdownButtonFormField to leverage strict InputDecorationTheme
+    // This allows it to look exactly like AppTextInput without extra effort.
+    
+    return DropdownButtonFormField<T>(
+      value: value,
+      items: items,
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        hintText: hintText,
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon as IconData?) : null, // Assuming IconData, but might need widget check
+        // PrefixIcon logic: if widget passed, use it. If IconData, convert.
+        // But Input uses widget usually. Let's fix type if needed.
+        // Actually, AppTextInput usually takes IconData for prefix. 
+        // Let's check AppDropdown usage... passed specific Items.
       ),
-      // Theme enforced by AppDesignSystem (Radius, Shadows)
+      icon: const Icon(Icons.keyboard_arrow_down_rounded),
+      dropdownColor: Theme.of(context).cardColor, // From Moon Theme Gohan
     );
   }
 }

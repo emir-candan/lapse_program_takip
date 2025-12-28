@@ -11,9 +11,12 @@ class AppBreadcrumbs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Map generic widgets to MoonBreadcrumbItem
+    // Assuming generic widgets are Texts
+    final moonItems = items.map((w) => MoonBreadcrumbItem(label: w)).toList();
+    
     return MoonBreadcrumb(
-      items: items,
-      // MoonBreadcrumbItem children
+      items: moonItems,
     );
   }
 }

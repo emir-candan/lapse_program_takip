@@ -18,8 +18,8 @@ class AppAlert extends StatelessWidget {
     return MoonAlert(
       label: Text(title),
       content: body != null ? Text(body!) : null,
-      showIcon: showIcon,
-      // Radius and colors derived from Theme
+      leading: showIcon ? const Icon(Icons.info_outline) : null, 
+      // Changed 'showIcon' boolean to 'leading' widget
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppSkeleton extends StatelessWidget {
   final double? width;
@@ -21,7 +22,7 @@ class AppSkeleton extends StatelessWidget {
          decoration: BoxDecoration(
            borderRadius: borderRadius != null 
                ? BorderRadius.circular(borderRadius!) 
-               : (context.moonTheme?.tokens.borders.interactiveMd ?? BorderRadius.circular(12)),
+               : BorderRadius.circular(AppTheme.tokens.skeletonDefaultRadius), // Enforced static token pattern
            // MoonSkeleton usually involves an animation, if not available in this version:
            color: context.moonColors?.beerus,
          ),

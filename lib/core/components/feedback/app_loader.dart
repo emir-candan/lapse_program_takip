@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppLoader extends StatelessWidget {
   final double size;
@@ -13,7 +14,7 @@ class AppLoader extends StatelessWidget {
       height: size,
       child: MoonCircularLoader(
         color: Theme.of(context).primaryColor,
-        // Enforce circular shape logic if needed, but loader is standard.
+        strokeWidth: AppTheme.tokens.loaderStrokeWidth,
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppFileUploader extends StatelessWidget {
   final String label;
@@ -13,10 +14,30 @@ class AppFileUploader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // moon_ui_file_uploader.dart
-    return MoonFileUploader(
-      label: Text(label),
+     final colors = context.moonColors;
+    
+    return GestureDetector(
       onTap: onUpload,
+      child: Container(
+        height: AppTheme.tokens.fileUploaderHeight,
+        decoration: BoxDecoration(
+          color: colors?.gohan,
+          borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+          border: Border.all(
+            color: colors?.beerus ?? Colors.grey,
+            width: 1,
+            style: BorderStyle.solid,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.cloud_upload_outlined, size: AppTheme.tokens.fileUploaderIconSize, color: colors?.textSecondary),
+            SizedBox(height: AppTheme.tokens.spacingSm),
+            Text(label, style: Theme.of(context).textTheme.bodyMedium),
+          ],
+        ),
+      ),
     );
   }
 }

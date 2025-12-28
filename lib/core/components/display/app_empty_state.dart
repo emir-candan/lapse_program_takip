@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppEmptyState extends StatelessWidget {
   final String message;
@@ -8,14 +9,25 @@ class AppEmptyState extends StatelessWidget {
   const AppEmptyState({
     super.key,
     this.message = "Veri bulunamadı.",
-    this.icon = Icons.inbox_outlined, // MoonIcons usually preferred but IconData works
+    this.icon = Icons.inbox_outlined,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MoonEmptyState(
-      label: Text(message),
-      leading: Icon(icon, size: 48), // MoonEmptyState usually takes leading icon
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: AppTheme.tokens.emptyStateIconSize, color: context.moonColors?.trunks),
+          SizedBox(height: AppTheme.tokens.emptyStateSpacing),
+          Text(
+            message, 
+            style: context.moonTypography?.body.text16.copyWith(
+              color: context.moonColors?.trunks
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppChip extends StatelessWidget {
   final String label;
@@ -17,12 +18,9 @@ class AppChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return MoonChip(
       label: Text(label),
-      leading: icon != null ? Icon(icon, size: 16) : null,
-      onTap: onRemove, // If explicit remove, use trailing, but onTap works for selection
-      borderRadius: BorderRadius.circular(100), // Chips are usually round, regardless of theme radius preference? 
-      // User said "Total control via theme". 
-      // If we interpret defaultRadius as THE radius for everything, we should use it.
-      // But typically chips are fully rounded. I will assume full rounded for Chips unless user specifies AppTheme.chipRadius.
+      leading: icon != null ? Icon(icon, size: AppTheme.tokens.chipIconSize) : null,
+      onTap: onRemove,
+      borderRadius: BorderRadius.circular(AppTheme.tokens.chipRadius), 
     );
   }
 }

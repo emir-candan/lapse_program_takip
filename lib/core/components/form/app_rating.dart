@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppRating extends StatelessWidget {
-  final double value; // MoonRating usually doubles?
-  final double max; // or int
+  final double value;
+  final int max;
   final ValueChanged<double>? onChanged;
 
   const AppRating({
@@ -15,14 +15,25 @@ class AppRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // File list said 'moon_ui_rating_stars.dart', likely class is MoonRating or MoonRatingStars
-    // I will guess MoonRating first.
-    // If invalid, I'll need to check. But assuming MoonRating based on conventions.
-    // Actually, usually it's MoonRating.
-    return MoonRating(
-      rating: value,
-      itemCount: max.toInt(),
-      onRatingChanged: onChanged,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(max, (index) {
+        final isSelected = index < value;
+        return MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: onChanged != null ? () => onChanged!(index + 1.0) : null,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.tokens.ratingItemPadding),
+              child: Icon(
+                isSelected ? Icons.star_rounded : Icons.star_border_rounded,
+                color: isSelected ? AppTheme.tokens.ratingActiveColor : AppTheme.tokens.ratingInactiveColor,
+                size: AppTheme.tokens.ratingStarSize,
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }

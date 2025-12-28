@@ -9,7 +9,8 @@ class AppDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MoonDivider(
+    return Divider(
+      color: context.moonColors?.beerus,
       indent: indent,
       endIndent: endIndent,
     );

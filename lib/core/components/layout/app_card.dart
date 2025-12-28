@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
@@ -15,14 +16,20 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // moon_ui_card.dart
-    // MoonCard often doesn't take padding as param, acts as container.
-    return MoonCard(
-       backgroundColor: backgroundColor,
-       child: Padding(
-         padding: padding ?? const EdgeInsets.all(16.0),
-         child: child,
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return Container(
+       padding: padding ?? AppTheme.tokens.cardPadding,
+       decoration: BoxDecoration(
+         color: backgroundColor ?? context.moonColors?.gohan,
+         borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+         boxShadow: isDark ? AppTheme.tokens.cardShadowDark : AppTheme.tokens.cardShadowLight,
+         border: Border.all(
+           color: context.moonColors?.beerus ?? Colors.transparent,
+           width: 1,
+         ),
        ),
+       child: child,
     );
   }
 }

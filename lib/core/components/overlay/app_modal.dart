@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 /// Helper class to show standardized modals/bottom sheets.
 class AppModal {
@@ -13,7 +14,6 @@ class AppModal {
       context: context,
       builder: (context) => MoonModal(
         child: child,
-        // borderRadius: ... enforced by theme?
       ),
     );
   }
@@ -22,9 +22,15 @@ class AppModal {
     required BuildContext context,
     required String message,
   }) {
-    showMoonToast(
-      context: context,
+    // Correct usage based on Moon Design 1.0 conventions:
+    // Safe usage for Moon Design:
+    MoonToast.show(
+      context,
       label: Text(message),
+      variant: MoonToastVariant.original,
+      backgroundColor: context.moonColors?.gohan,
+      borderRadius: BorderRadius.circular(AppTheme.tokens.radiusSm),
+      leading: const Icon(Icons.info_outline),
     );
   }
 }

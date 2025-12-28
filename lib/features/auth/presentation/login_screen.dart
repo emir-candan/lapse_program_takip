@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moon_design/moon_design.dart';
 import '../../../core/components/components.dart';
 import '../../../core/theme/theme_provider.dart';
@@ -60,6 +61,17 @@ class LoginScreen extends ConsumerWidget {
                       onTap: () {
                         // Giriş işlemi
                       },
+                    ),
+                    const SizedBox(height: 24),
+                    TextButton(
+                      onPressed: () => context.push('/showcase'),
+                      child: Text(
+                        "UI Kit Galerisi'ni Gör",
+                        style: TextStyle(
+                          color: context.moonColors?.piccolo, 
+                          decoration: TextDecoration.underline
+                        ),
+                      ),
                     ),
                   ],
                 ),

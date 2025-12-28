@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppTag extends StatelessWidget {
   final String label;
@@ -19,8 +20,7 @@ class AppTag extends StatelessWidget {
       label: Text(label),
       onTap: onTap,
       backgroundColor: backgroundColor,
-      // Radius will be handled strictly by AppTheme if MoonTag uses BorderRadius tokens.
-      // If not, we can force it here: borderRadius: BorderRadius.circular(AppTheme.radius)
+      borderRadius: BorderRadius.circular(AppTheme.tokens.tagRadius),
     );
   }
 }

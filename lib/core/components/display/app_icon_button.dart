@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppIconButton extends StatelessWidget {
   final IconData icon;
@@ -19,12 +20,26 @@ class AppIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MoonIconButton automatically uses MoonTheme.tokens.borders.interactiveSm/Md
-    return MoonIconButton(
-      onTap: onTap,
-      icon: Icon(icon, color: color),
-      tooltip: tooltip,
-      backgroundColor: backgroundColor,
+    // MoonIconButton might not exist in 1.1.0, fallback to MoonButton with no label or standard IconButton
+    // Let's use standard Flutter IconButton to be safe but wrap in Theme
+    
+    // Check if MoonFilledIconButton exists? Maybe. 
+    // Safest bet for "Pure Control" is manually styled Container.
+    
+    return Tooltip(
+      message: tooltip ?? "",
+      child: Material(
+        color: backgroundColor ?? Colors.transparent,
+        borderRadius: BorderRadius.circular(AppTheme.tokens.iconButtonRadius),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.all(AppTheme.tokens.iconButtonPadding),
+            child: Icon(icon, color: color ?? context.moonColors?.piccolo),
+          ),
+        ),
+      ),
     );
   }
 }

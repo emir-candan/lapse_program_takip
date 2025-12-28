@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../theme/app_theme.dart';
 
 /// Standard Primary Button for Lapse.
 ///
@@ -23,12 +24,18 @@ class AppButton extends StatelessWidget {
     final button = MoonFilledButton(
       onTap: isLoading ? null : onTap,
       label: isLoading 
-          ? const SizedBox(
+          ? SizedBox(
               width: 20, 
               height: 20, 
-              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(context.moonColors?.goten ?? Colors.white),
+                strokeWidth: AppTheme.tokens.loaderStrokeWidth,
+              ),
             )
-          : Text(label),
+          : Text(
+            label, 
+            style: TextStyle(fontWeight: AppTheme.tokens.buttonTextWeight),
+          ),
       // MoonFilledButton uses context.moonTheme.tokens by default,
       // which we have overridden in AppDesignSystem.
     );

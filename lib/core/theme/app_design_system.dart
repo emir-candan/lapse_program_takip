@@ -69,6 +69,14 @@ class AppDesignSystem {
       ),
       // Force Inputs
       inputDecorationTheme: inputDecorationTheme,
+      // Force Data Tables
+      dataTableTheme: DataTableThemeData(
+        headingRowColor: WidgetStateProperty.all(backgroundColor),
+        dataRowColor: WidgetStateProperty.all(surfaceColor),
+        headingTextStyle: fontStyle.copyWith(fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
+        dataTextStyle: fontStyle.copyWith(color: isDarkMode ? Colors.white70 : Colors.black87),
+        dividerThickness: borderWidth,
+      ),
       // Extensions (Moon Design)
       extensions: [moonTheme],
     );

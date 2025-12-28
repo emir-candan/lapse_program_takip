@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -15,14 +15,16 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MoonAppBar(
+    return AppBar(
       title: Text(title),
       leading: leading,
       actions: actions,
-      backgroundColor: Colors.transparent, 
+      backgroundColor: Colors.transparent,
+      centerTitle: true,
+      elevation: AppTheme.tokens.appBarElevation,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(56.0); // Standard height
+  Size get preferredSize => Size.fromHeight(AppTheme.tokens.appBarHeight);
 }

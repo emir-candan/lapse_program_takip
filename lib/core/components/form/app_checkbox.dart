@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppCheckbox extends StatelessWidget {
   final bool value;
@@ -25,7 +26,7 @@ class AppCheckbox extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           checkbox,
-          const SizedBox(width: 8),
+          SizedBox(width: AppTheme.tokens.spacingSm),
           Text(label!, style: Theme.of(context).textTheme.bodyMedium),
         ],
       );

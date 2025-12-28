@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moon_design/moon_design.dart';
+import 'app_text_input.dart';
 
 class AppDatePicker extends StatelessWidget {
   final DateTime? value;
@@ -15,20 +15,23 @@ class AppDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // moon_ui_date_picker.dart
-    // Usually a widget you inline or show in modal. Wrapper might just be the clickable field calling the specific picker.
-    // Or MoonDatePicker might be the calendar widget itself.
-    // Let's assume MoonDatePicker is the inline calendar or valid field.
-    // If it's just the calendar, we need to wrap it in a Dialog/Popover.
-    
-    // For now, let's assume it's a widget we can use. If it's just a calendar, 
-    // we might want to keep the logic of opening it but using MoonDatePicker content.
-    
-    // Actually, sticking to "Moon based", using MoonDatePicker directly is safest.
-    return MoonDatePicker(
-      initialDate: value ?? DateTime.now(),
-      onDateSelected: onChanged,
-      // other props
+    return GestureDetector(
+      onTap: () async {
+        final picked = await showDatePicker(
+          context: context,
+          initialDate: value ?? DateTime.now(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2100),
+        );
+        if (picked != null) onChanged(picked);
+      },
+      child: AbsorbPointer(
+         child: AppTextInput(
+           hintText: label, 
+           prefixIcon: Icons.calendar_today,
+           controller: TextEditingController(text: value?.toString().split(' ')[0]),
+         ),
+      ),
     );
   }
 }

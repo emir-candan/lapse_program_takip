@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // İleride bunları gerçek dosyalarına yönlendireceğiz.
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/showcase/presentation/components_showcase_screen.dart';
 
 import 'auth_listenable.dart';
 
@@ -17,10 +18,12 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: '/', // Start at home, let redirect handle login check
     redirect: (context, state) {
       final isLoggedIn = authState.isAuthenticated;
-      final isLoggingIn = state.uri.toString() == '/login';
+      final path = state.uri.toString();
+      final isLoggingIn = path == '/login';
+      final isShowcase = path == '/showcase';
 
-      if (!isLoggedIn && !isLoggingIn) {
-        // If not logged in and not on login page, go to login
+      if (!isLoggedIn && !isLoggingIn && !isShowcase) {
+        // If not logged in AND not on public pages (login, showcase), go to login
         return '/login';
       }
 
@@ -35,6 +38,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/showcase',
+        builder: (context, state) => const ComponentsShowcaseScreen(),
       ),
       GoRoute(
         path: '/',
