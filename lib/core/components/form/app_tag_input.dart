@@ -57,8 +57,8 @@ class _AppTagInputState extends State<AppTagInput> {
           children: _tags.map((tag) => MoonChip(
             label: Text(tag),
             onTap: () => _removeTag(tag),
-            backgroundColor: context.moonColors?.roshi.withOpacity(0.1),
-            textColor: context.moonColors?.roshi,
+            backgroundColor: AppTheme.colors(context).error.withOpacity(0.1),
+            textColor: AppTheme.colors(context).error,
             leading: Icon(Icons.close, size: AppTheme.tokens.tagIconSize),
           )).toList(),
         ),

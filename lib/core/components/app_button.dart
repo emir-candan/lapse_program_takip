@@ -28,7 +28,7 @@ class AppButton extends StatelessWidget {
               width: 20, 
               height: 20, 
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(context.moonColors?.goten ?? Colors.white),
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.colors(context).onBrand),
                 strokeWidth: AppTheme.tokens.loaderStrokeWidth,
               ),
             )

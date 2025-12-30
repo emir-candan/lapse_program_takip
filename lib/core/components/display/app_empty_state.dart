@@ -18,12 +18,12 @@ class AppEmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: AppTheme.tokens.emptyStateIconSize, color: context.moonColors?.trunks),
+          Icon(icon, size: AppTheme.tokens.emptyStateIconSize, color: AppTheme.colors(context).textSecondary),
           SizedBox(height: AppTheme.tokens.emptyStateSpacing),
           Text(
             message, 
             style: context.moonTypography?.body.text16.copyWith(
-              color: context.moonColors?.trunks
+              color: AppTheme.colors(context).textSecondary
             ),
           ),
         ],

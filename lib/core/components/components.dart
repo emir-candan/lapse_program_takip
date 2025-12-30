@@ -31,6 +31,7 @@ export 'display/app_carousel.dart';
 export 'display/app_table.dart';
 export 'layout/app_card.dart';
 export 'layout/app_divider.dart';
+export 'layout/app_page_layout.dart';
 
 // Navigation
 export 'navigation/app_tabs.dart';

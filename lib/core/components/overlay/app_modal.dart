@@ -28,7 +28,7 @@ class AppModal {
       context,
       label: Text(message),
       variant: MoonToastVariant.original,
-      backgroundColor: context.moonColors?.gohan,
+      backgroundColor: AppTheme.colors(context).surface,
       borderRadius: BorderRadius.circular(AppTheme.tokens.radiusSm),
       leading: const Icon(Icons.info_outline),
     );

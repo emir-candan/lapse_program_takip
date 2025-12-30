@@ -21,11 +21,11 @@ class AppCard extends StatelessWidget {
     return Container(
        padding: padding ?? AppTheme.tokens.cardPadding,
        decoration: BoxDecoration(
-         color: backgroundColor ?? context.moonColors?.gohan,
+         color: backgroundColor ?? AppTheme.colors(context).surface,
          borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
          boxShadow: isDark ? AppTheme.tokens.cardShadowDark : AppTheme.tokens.cardShadowLight,
          border: Border.all(
-           color: context.moonColors?.beerus ?? Colors.transparent,
+           color: AppTheme.colors(context).border,
            width: 1,
          ),
        ),

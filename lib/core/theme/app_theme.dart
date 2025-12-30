@@ -35,6 +35,9 @@ class AppTheme {
   static const _AppTokens tokens = _AppTokens();
 
   // ==============================================================================
+  static AppColors colors(BuildContext context) => Theme.of(context).extension<AppColors>()!;
+
+  // ==============================================================================
   // 🚀 TEMALARI BAŞLAT (STATİK)
   // ==============================================================================
 
@@ -46,6 +49,7 @@ class AppTheme {
     fontStyle: _mainFont,
     defaultRadius: _defaultRadius,
     borderWidth: _borderWidth,
+    extensions: [_lightColors],
   );
 
   static final darkTheme = AppDesignSystem.getStrictTheme(
@@ -56,7 +60,113 @@ class AppTheme {
     fontStyle: _mainFont,
     defaultRadius: _defaultRadius,
     borderWidth: _borderWidth,
+    extensions: [_darkColors],
   );
+
+  // --- Renk Tanımları ---
+  static final _lightColors = AppColors(
+    brand: _brandColorLight,
+    onBrand: Colors.white,
+    background: _lightBg,
+    surface: _lightSurface,
+    textPrimary: const Color(0xFF0F172A), // Slate 900
+    textSecondary: const Color(0xFF64748B), // Slate 500
+    border: const Color(0xFFE2E8F0), // Slate 200
+    error: const Color(0xFFEF4444), // Red 500
+    success: const Color(0xFF22C55E), // Green 500
+    warning: const Color(0xFFF59E0B), // Amber 500
+    sidebar: const Color(0xFFF1F5F9), // Slate 100
+  );
+
+  static final _darkColors = AppColors(
+    brand: _brandColorDark,
+    onBrand: Colors.white,
+    background: _darkBg,
+    surface: _darkSurface,
+    textPrimary: const Color(0xFFF8FAFC), // Slate 50
+    textSecondary: const Color(0xFF94A3B8), // Slate 400
+    border: const Color(0xFF30363D), // Zinc derivative
+    error: const Color(0xFFEF4444), // Red 500
+    success: const Color(0xFF22C55E), // Green 500
+    warning: const Color(0xFFF59E0B), // Amber 500
+    sidebar: const Color(0xFF18181B), // Zinc 900 (Slightly lighter than bg #121212)
+  );
+}
+
+@immutable
+class AppColors extends ThemeExtension<AppColors> {
+  final Color brand;
+  final Color onBrand;
+  final Color background;
+  final Color surface;
+  final Color textPrimary;
+  final Color textSecondary;
+  final Color border;
+  final Color error;
+  final Color success;
+  final Color warning;
+  final Color sidebar;
+
+  const AppColors({
+    required this.brand,
+    required this.onBrand,
+    required this.background,
+    required this.surface,
+    required this.textPrimary,
+    required this.textSecondary,
+    required this.border,
+    required this.error,
+    required this.success,
+    required this.warning,
+    required this.sidebar,
+  });
+
+  @override
+  AppColors copyWith({
+    Color? brand,
+    Color? onBrand,
+    Color? background,
+    Color? surface,
+    Color? textPrimary,
+    Color? textSecondary,
+    Color? border,
+    Color? error,
+    Color? success,
+    Color? warning,
+    Color? sidebar,
+  }) {
+    return AppColors(
+      brand: brand ?? this.brand,
+      onBrand: onBrand ?? this.onBrand,
+      background: background ?? this.background,
+      surface: surface ?? this.surface,
+      textPrimary: textPrimary ?? this.textPrimary,
+      textSecondary: textSecondary ?? this.textSecondary,
+      border: border ?? this.border,
+      error: error ?? this.error,
+      success: success ?? this.success,
+      warning: warning ?? this.warning,
+      sidebar: sidebar ?? this.sidebar,
+    );
+  }
+
+  @override
+  AppColors lerp(ThemeExtension<AppColors>? other, double t) {
+    if (other is! AppColors) return this;
+    return AppColors(
+      brand: Color.lerp(brand, other.brand, t)!,
+      onBrand: Color.lerp(onBrand, other.onBrand, t)!,
+      background: Color.lerp(background, other.background, t)!,
+      surface: Color.lerp(surface, other.surface, t)!,
+      textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
+      textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
+      border: Color.lerp(border, other.border, t)!,
+      error: Color.lerp(error, other.error, t)!,
+      success: Color.lerp(success, other.success, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
+      sidebar: Color.lerp(sidebar, other.sidebar, t)!,
+    );
+  }
 }
 
 // Token sınıfı değişmedi, aynen kalacak (silmeyin).
@@ -78,6 +188,20 @@ class _AppTokens {
 
   List<BoxShadow> get cardShadowLight => AppTheme._cardShadow;
   List<BoxShadow> get cardShadowDark => AppTheme._cardShadowDark;
+
+  // Shared shadow for Sidebar and AppBar
+  List<BoxShadow> get layoutShadow => [
+    BoxShadow(
+      color: Colors.black.withOpacity(0.05),
+      blurRadius: 8,
+      spreadRadius: 0,
+      offset: const Offset(0, 0), // Center shadow for uniformity or adjust per usage? 
+      // User said "same setting". Let's use a subtle directed shadow or ambient.
+      // Ambient (0,0) is safest for "same setting" looking "compatible".
+      // Or we can define it and overload it. 
+      // Let's go with a standard light depth.
+    )
+  ];
 
   final FontWeight buttonTextWeight = FontWeight.w600;
   final EdgeInsets inputContentPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14);

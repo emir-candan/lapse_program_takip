@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../theme/app_theme.dart';
 
 class AppDivider extends StatelessWidget {
   final double? indent;
@@ -10,7 +11,7 @@ class AppDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: context.moonColors?.beerus,
+      color: AppTheme.colors(context).border,
       indent: indent,
       endIndent: endIndent,
     );

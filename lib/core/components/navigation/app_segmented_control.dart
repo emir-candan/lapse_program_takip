@@ -19,9 +19,9 @@ class AppSegmentedControl extends StatelessWidget {
     return Container(
       padding: AppTheme.tokens.segmentedControlPadding,
       decoration: BoxDecoration(
-        color: context.moonColors?.gohan, 
+        color: AppTheme.colors(context).surface, 
         borderRadius: BorderRadius.circular(AppTheme.tokens.radiusSm),
-        border: Border.all(color: context.moonColors?.beerus ?? Colors.transparent),
+        border: Border.all(color: AppTheme.colors(context).border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -40,13 +40,13 @@ class AppSegmentedControl extends StatelessWidget {
           padding: AppTheme.tokens.segmentedControlInnerPadding,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected ? context.moonColors?.piccolo : Colors.transparent,
+            color: isSelected ? AppTheme.colors(context).brand : Colors.transparent,
             borderRadius: BorderRadius.circular(AppTheme.tokens.segmentedControlRadius),
             boxShadow: isSelected ? AppTheme.tokens.segmentedControlShadow : null,
           ),
           child: DefaultTextStyle(
             style: TextStyle(
-              color: isSelected ? (context.moonColors?.goten ?? Colors.white) : context.moonColors?.textSecondary,
+              color: isSelected ? AppTheme.colors(context).onBrand : AppTheme.colors(context).textSecondary,
               fontWeight: isSelected ? AppTheme.tokens.buttonTextWeight : FontWeight.normal,
             ),
             child: entry.value, // User provided widget (Text usually)

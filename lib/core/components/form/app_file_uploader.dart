@@ -14,17 +14,17 @@ class AppFileUploader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final colors = context.moonColors;
+     final colors = AppTheme.colors(context);
     
     return GestureDetector(
       onTap: onUpload,
       child: Container(
         height: AppTheme.tokens.fileUploaderHeight,
         decoration: BoxDecoration(
-          color: colors?.gohan,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
           border: Border.all(
-            color: colors?.beerus ?? Colors.grey,
+            color: colors.border,
             width: 1,
             style: BorderStyle.solid,
           ),
@@ -32,7 +32,7 @@ class AppFileUploader extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.cloud_upload_outlined, size: AppTheme.tokens.fileUploaderIconSize, color: colors?.textSecondary),
+            Icon(Icons.cloud_upload_outlined, size: AppTheme.tokens.fileUploaderIconSize, color: colors.textSecondary),
             SizedBox(height: AppTheme.tokens.spacingSm),
             Text(label, style: Theme.of(context).textTheme.bodyMedium),
           ],

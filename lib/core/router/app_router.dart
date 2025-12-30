@@ -53,15 +53,21 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/dashboard',
              // Redirect root '/' to '/dashboard' if needed, or stick to '/'
-            builder: (context, state) => const HomeScreen(), 
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: HomeScreen(),
+            ), 
           ),
           GoRoute(
             path: '/programs',
-            builder: (context, state) => const ProgramsScreen(),
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: ProgramsScreen(),
+            ),
           ),
           GoRoute(
             path: '/settings',
-            builder: (context, state) => const SettingsScreen(),
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: SettingsScreen(),
+            ),
           ),
         ],
       ),

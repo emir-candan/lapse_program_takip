@@ -15,6 +15,7 @@ class AppDesignSystem {
     required TextStyle fontStyle,
     required double defaultRadius,
     required double borderWidth,
+    List<ThemeExtension<dynamic>>? extensions,
   }) {
     // 1. Determine Base
     final baseTheme = isDarkMode ? ThemeData.dark() : ThemeData.light();
@@ -77,8 +78,8 @@ class AppDesignSystem {
         dataTextStyle: fontStyle.copyWith(color: isDarkMode ? Colors.white70 : Colors.black87),
         dividerThickness: borderWidth,
       ),
-      // Extensions (Moon Design)
-      extensions: [moonTheme],
+      // Extensions (Moon Design + Custom)
+      extensions: [moonTheme, ...?extensions],
     );
   }
 

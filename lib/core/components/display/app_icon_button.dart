@@ -36,7 +36,7 @@ class AppIconButton extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.all(AppTheme.tokens.iconButtonPadding),
-            child: Icon(icon, color: color ?? context.moonColors?.piccolo),
+            child: Icon(icon, color: color ?? AppTheme.colors(context).brand),
           ),
         ),
       ),

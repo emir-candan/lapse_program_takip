@@ -30,7 +30,7 @@ class AppImage extends StatelessWidget {
         fit: fit,
         errorBuilder: (context, error, stackTrace) => Container(
           width: width, height: height,
-          color: context.moonColors?.beerus,
+          color: AppTheme.colors(context).border,
           child: const Icon(Icons.broken_image),
         ),
       ),

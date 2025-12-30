@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_design/moon_design.dart';
 import '../../../core/components/components.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/theme_provider.dart';
 
 class ComponentsShowcaseScreen extends ConsumerStatefulWidget {
@@ -38,7 +39,7 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
     final isDark = themeMode == ThemeMode.dark;
 
     return Scaffold(
-      backgroundColor: context.moonColors?.goku,
+      backgroundColor: AppTheme.colors(context).background,
       appBar: AppAppBar(
         title: "Design System Showcase",
         actions: [
@@ -48,7 +49,7 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
               icon: isDark ? Icons.light_mode : Icons.dark_mode_outlined,
               onTap: () => ref.read(themeProvider.notifier).toggleTheme(),
               tooltip: "Temayı Değiştir",
-              backgroundColor: context.moonColors?.gohan,
+              backgroundColor: AppTheme.colors(context).surface,
             ),
           ),
         ],
@@ -205,7 +206,7 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
                                ],
                              ),
                            ),
-                           Container(width: 1, height: 80, color: context.moonColors?.beerus, margin: const EdgeInsets.symmetric(horizontal: 24)),
+                           Container(width: 1, height: 80, color: AppTheme.colors(context).border, margin: const EdgeInsets.symmetric(horizontal: 24)),
                            Expanded(
                              child: Column(
                                crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,7 +411,7 @@ class _ComponentsShowcaseScreenState extends ConsumerState<ComponentsShowcaseScr
       children: [
         Text("Design System v1.0", style: context.moonTypography?.heading.text32.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
-        Text("Lapse Program Takip Sistemi - Bileşen Kataloğu", style: context.moonTypography?.body.text18.copyWith(color: context.moonColors?.textSecondary)),
+        Text("Lapse Program Takip Sistemi - Bileşen Kataloğu", style: context.moonTypography?.body.text18.copyWith(color: AppTheme.colors(context).textSecondary)),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moon_design/moon_design.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/components/components.dart';
 import 'providers/auth_controller.dart';
 
@@ -80,7 +81,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final moonColors = context.moonColors;
+    final colors = AppTheme.colors(context);
     final moonTypography = context.moonTypography;
     
     // Listen for auth errors
@@ -110,7 +111,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   'assets/images/logo.svg',
                   height: 80,
                   colorFilter: ColorFilter.mode(
-                    moonColors?.piccolo ?? Colors.green,
+                    colors.brand,
                     BlendMode.srcIn,
                   ),
                 ),
@@ -120,14 +121,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: moonTypography?.heading.text32.copyWith(
                     fontWeight: FontWeight.w800,
                     letterSpacing: 4,
-                    color: moonColors?.textPrimary,
+                    color: colors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   "Program Takip Sistemi",
                   style: moonTypography?.body.text16.copyWith(
-                    color: moonColors?.textSecondary,
+                    color: colors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 48),
@@ -204,7 +205,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 child: Text(
                                   "Şifremi Unuttum",
                                   style: moonTypography?.body.text14.copyWith(
-                                    color: moonColors?.textSecondary,
+                                    color: colors.textSecondary,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -236,7 +237,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           child: RichText(
                             text: TextSpan(
                               style: moonTypography?.body.text14.copyWith(
-                                color: moonColors?.textSecondary,
+                                color: colors.textSecondary,
                               ),
                               children: [
                                 TextSpan(
@@ -247,7 +248,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 TextSpan(
                                   text: _isLogin ? "Kayıt Ol" : "Giriş Yap",
                                   style: TextStyle(
-                                    color: moonColors?.piccolo,
+                                    color: colors.brand,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
