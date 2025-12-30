@@ -9,6 +9,9 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+    final user = authState.valueOrNull;
+
     return Scaffold(
       backgroundColor: context.moonColors?.goku,
       appBar: AppBar(
@@ -35,12 +38,30 @@ class HomeScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Hoşgeldiniz",
+              "Hoşgeldiniz, ${user?.name ?? ''}",
               style: context.moonTypography?.heading.text24,
             ),
             const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: user?.isAdmin == true ? Colors.red.withOpacity(0.1) : Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: user?.isAdmin == true ? Colors.red : Colors.blue,
+                ),
+              ),
+              child: Text(
+                "Role: ${user?.role ?? 'Bilinmiyor'}",
+                style: context.moonTypography?.body.text14.copyWith(
+                  color: user?.isAdmin == true ? Colors.red : Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             Text(
-              "iddia",
+              "Program Takip Sistemi",
               style: context.moonTypography?.body.text16.copyWith(
                 color: context.moonColors?.textSecondary,
               ),

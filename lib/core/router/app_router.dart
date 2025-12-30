@@ -6,6 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // İleride bunları gerçek dosyalarına yönlendireceğiz.
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/layout/presentation/main_layout.dart';
+import '../../features/programs/presentation/programs_screen.dart';
+import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/showcase/presentation/components_showcase_screen.dart';
 
 import '../../features/auth/presentation/providers/auth_controller.dart';
@@ -42,13 +45,35 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/login',
         builder: (context, state) => const LoginScreen(),
       ),
+      ShellRoute(
+        builder: (context, state, child) {
+          return MainLayout(child: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/dashboard',
+             // Redirect root '/' to '/dashboard' if needed, or stick to '/'
+            builder: (context, state) => const HomeScreen(), 
+          ),
+          GoRoute(
+            path: '/programs',
+            builder: (context, state) => const ProgramsScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+        ],
+      ),
+       // Component Showcase (Keep outside shell or inside as preferred. Outside for now)
       GoRoute(
         path: '/showcase',
         builder: (context, state) => const ComponentsShowcaseScreen(),
       ),
+      // Root redirect
       GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(),
+         path: '/',
+         redirect: (_, __) => '/dashboard',
       ),
     ],
   );

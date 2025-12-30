@@ -30,10 +30,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -70,6 +67,15 @@ class DefaultFirebaseOptions {
     projectId: 'lapse-program-takip',
     storageBucket: 'lapse-program-takip.firebasestorage.app',
     iosBundleId: 'com.emircandan.lapse',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDjNgKGirzlkAO6-oap5cE-n129q-OY4Bs',
+    appId: '1:939391174644:web:c0b97594ca76ccfbd99ba1',
+    messagingSenderId: '939391174644',
+    projectId: 'lapse-program-takip',
+    authDomain: 'lapse-program-takip.firebaseapp.com',
+    storageBucket: 'lapse-program-takip.firebasestorage.app',
   );
 
 }

@@ -12,8 +12,8 @@ class AppTheme {
   // 2. ARKA PLANLAR (Zinc - Nötr Griler)
   static const Color _lightBg = Color(0xFFF8FAFC); 
   static const Color _lightSurface = Color(0xFFFFFFFF); 
-  static const Color _darkBg = Color(0xFF09090B); 
-  static const Color _darkSurface = Color(0xFF18181B); 
+  static const Color _darkBg = Color(0xFF121212); // Daha yumuşak, standart dark mode siyahı
+  static const Color _darkSurface = Color(0xFF1E1E1E); // Yüzeyler için biraz daha açık ton 
 
   // 3. TİPOGRAFİ
   static TextStyle get _mainFont => GoogleFonts.montserrat();

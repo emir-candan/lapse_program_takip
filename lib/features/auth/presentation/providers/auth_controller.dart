@@ -4,9 +4,14 @@ import 'package:fpdart/fpdart.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/repositories/auth_repository.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // Repository Provider
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(FirebaseAuth.instance);
+  return AuthRepositoryImpl(
+    FirebaseAuth.instance,
+    FirebaseFirestore.instance,
+  );
 });
 
 // Auth State Provider
