@@ -92,140 +92,230 @@ class _SidebarContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateProvider).valueOrNull;
 
-    return Column(
-      children: [
-        const SizedBox(height: 32),
-        // Logo Area
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Row(
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.flash_on, size: 28), // Placeholder Logo
-              const SizedBox(width: 12),
-              Text(
-                "LAPSE",
-                style: context.moonTypography?.heading.text16.copyWith(
-                  fontWeight: FontWeight.bold,
+              const SizedBox(height: 32),
+              // Logo Area
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppTheme.colors(
+                          context,
+                        ).brand.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.flash_on_rounded,
+                        size: 20,
+                        color: AppTheme.colors(context).brand,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      "LAPSE",
+                      style: context.moonTypography?.heading.text16.copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.2, // Modern spacing
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              const SizedBox(height: 40),
+
+              // MENU SECTION
+              const _SidebarSectionLabel("MENÜ"),
+              // Navigation Items
+              _SidebarItem(
+                icon: Icons.dashboard_rounded,
+                label: "Panel",
+                isSelected: GoRouterState.of(
+                  context,
+                ).uri.path.startsWith('/dashboard'),
+                onTap: () {
+                  context.go('/dashboard');
+                  if (Scaffold.of(context).hasDrawer &&
+                      Scaffold.of(context).isDrawerOpen) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+              _SidebarItem(
+                icon: Icons.calendar_month_rounded,
+                label: "Programlar",
+                isSelected: GoRouterState.of(
+                  context,
+                ).uri.path.startsWith('/programs'),
+                onTap: () {
+                  context.go('/programs');
+                  if (Scaffold.of(context).hasDrawer &&
+                      Scaffold.of(context).isDrawerOpen) {
+                    Navigator.of(context).pop();
+                  }
+                },
               ),
             ],
           ),
         ),
-        const SizedBox(height: 48),
 
-        // Navigation Items
-        _SidebarItem(
-          icon: Icons.dashboard_rounded,
-          label: "Panel",
-          onTap: () {
-            context.go('/dashboard');
-            if (Scaffold.of(context).hasDrawer &&
-                Scaffold.of(context).isDrawerOpen) {
-              Navigator.of(context).pop();
-            }
-          },
-        ),
-        _SidebarItem(
-          icon: Icons.calendar_month_rounded,
-          label: "Programlar",
-          onTap: () {
-            context.go('/programs');
-            if (Scaffold.of(context).hasDrawer &&
-                Scaffold.of(context).isDrawerOpen) {
-              Navigator.of(context).pop();
-            }
-          },
-        ),
-
-        const Spacer(),
-
-        // User Profile Card
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: AppCard(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (user != null) ...[
-                  Row(
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Column(
+            children: [
+              const Spacer(),
+              // User Profile Card
+              Padding(
+                padding: const EdgeInsets.all(12), // Reduced outer padding
+                child: AppCard(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ), // Compact inner padding
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: AppTheme.colors(context).brand,
-                        radius: 20,
-                        child: Text(
-                          (user.name?.isNotEmpty == true)
-                              ? user.name![0].toUpperCase()
-                              : "U",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      if (user != null) ...[
+                        Row(
                           children: [
-                            Text(
-                              user.name ?? user.email,
-                              style: context.moonTypography?.body.text14
-                                  .copyWith(fontWeight: FontWeight.w600),
-                              overflow: TextOverflow.ellipsis,
+                            CircleAvatar(
+                              backgroundColor: AppTheme.colors(context).brand,
+                              radius: 16, // Smaller avatar
+                              child: Text(
+                                (user.name?.isNotEmpty == true)
+                                    ? user.name![0].toUpperCase()
+                                    : "U",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14, // Smaller text
+                                ),
+                              ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              user.role,
-                              style: context.moonTypography?.body.text12
-                                  .copyWith(
-                                    color: AppTheme.colors(
-                                      context,
-                                    ).textSecondary,
+                            const SizedBox(width: 8), // Tighter gap
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    user.name ?? user.email,
+                                    style: context.moonTypography?.body.text12
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ), // Smaller but bold
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
+                                  Text(
+                                    user.role,
+                                    style: context
+                                        .moonTypography
+                                        ?.body
+                                        .text10 // Even smaller for role
+                                        .copyWith(
+                                          color: AppTheme.colors(
+                                            context,
+                                          ).textSecondary,
+                                        ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Compact Icon Actions
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.settings_outlined,
+                                    size: 20,
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 32,
+                                    minHeight: 32,
+                                  ),
+                                  style: IconButton.styleFrom(
+                                    padding: const EdgeInsets.all(6),
+                                  ),
+                                  onPressed: () {
+                                    context.go('/settings');
+                                    if (Scaffold.of(context).hasDrawer &&
+                                        Scaffold.of(context).isDrawerOpen) {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                  tooltip: "Ayarlar",
+                                ),
+                                const SizedBox(width: 4),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.logout_rounded,
+                                    size: 20,
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 32,
+                                    minHeight: 32,
+                                  ),
+                                  style: IconButton.styleFrom(
+                                    padding: const EdgeInsets.all(6),
+                                  ),
+                                  color: AppTheme.colors(context).error,
+                                  onPressed: () {
+                                    ref
+                                        .read(authControllerProvider.notifier)
+                                        .signOut();
+                                  },
+                                  tooltip: "Çıkış Yap",
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ),
-                      // Icon Actions
-                      IconButton(
-                        icon: Icon(Icons.settings_outlined, size: 20),
-                        onPressed: () {
-                          context.go('/settings');
-                          if (Scaffold.of(context).hasDrawer &&
-                              Scaffold.of(context).isDrawerOpen) {
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        tooltip: "Ayarlar",
-                        splashRadius: 20,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.logout_rounded, size: 20),
-                        color: AppTheme.colors(context).error,
-                        onPressed: () {
-                          ref.read(authControllerProvider.notifier).signOut();
-                        },
-                        tooltip: "Çıkış Yap",
-                        splashRadius: 20,
-                      ),
+                      ] else ...[
+                        Text(
+                          "Kullanıcı bilgisi yok",
+                          style: context.moonTypography?.body.text12.copyWith(
+                            color: AppTheme.colors(context).textSecondary,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
-                ] else ...[
-                  // Fallback if no user
-                  Text(
-                    "Kullanıcı bilgisi yok",
-                    style: context.moonTypography?.body.text12.copyWith(
-                      color: AppTheme.colors(context).textSecondary,
-                    ),
-                  ),
-                ],
-              ],
-            ),
+                ),
+              ),
+              const SizedBox(height: 16), // Bottom safe area margin
+            ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SidebarSectionLabel extends StatelessWidget {
+  final String label;
+  const _SidebarSectionLabel(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, top: 24, bottom: 8),
+      child: Text(
+        label,
+        style: context.moonTypography?.body.text10.copyWith(
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.5,
+          color: AppTheme.colors(context).textSecondary.withValues(alpha: 0.7),
+        ),
+      ),
     );
   }
 }
@@ -234,19 +324,66 @@ class _SidebarItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final bool isSelected;
 
   const _SidebarItem({
     required this.icon,
     required this.label,
     required this.onTap,
+    this.isSelected = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: AppTheme.colors(context).textPrimary),
-      title: Text(label, style: context.moonTypography?.body.text14),
-      onTap: onTap,
+    final colors = AppTheme.colors(context);
+    final activeBg = colors.brand.withValues(alpha: 0.08); // Subtle brand tint
+    final inactiveText = colors.textSecondary;
+    final activeText = colors.brand;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Material(
+        color: isSelected ? activeBg : Colors.transparent,
+        borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+              // Optional: Add border or other decoration for active state
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  icon,
+                  color: isSelected ? activeText : inactiveText,
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  label,
+                  style: context.moonTypography?.body.text14.copyWith(
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                    color: isSelected ? activeText : colors.textPrimary,
+                  ),
+                ),
+                if (isSelected) const Spacer(),
+                if (isSelected)
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: activeText,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

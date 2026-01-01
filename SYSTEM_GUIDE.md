@@ -156,7 +156,7 @@ class NewPageScreen extends ConsumerWidget {
 
 ## 🚫 SIFIR TOLERANS KURALLARI
 
-1.  `context.moonColors` kullanmak **YASAKTIR**. -> `AppTheme.colors(context)` kullan.
+1.  `context.moonColors` veya başka bir şekilde renk kullanmak **YASAKTIR**. -> `AppTheme.colors(context)` kullan.
 2.  `colors.dart` içine yeni renk eklemek **YASAKTIR**. -> `app_theme.dart` içindeki `AppColors` sınıfını genişlet.
 3.  Sayfalarda `Scaffold` kullanmak (MainLayout hariç) **YASAKTIR**. -> `AppPageLayout` kullan.
 4.  Butonlara `style: ButtonStyle(...)` ile manuel stil vermek **YASAKTIR**. -> `AppButton` parametrelerini kullan.

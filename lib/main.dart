@@ -9,10 +9,8 @@ import 'core/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   await Hive.initFlutter();
   await Hive.openBox('settings'); // Ayarlar kutusunu açtığımızdan emin oluyoruz
 
@@ -25,21 +23,21 @@ class LapseApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    
+
     // ✅ ARTIK DİNAMİK: Provider'ı dinliyoruz
     final currentThemeMode = ref.watch(themeProvider);
 
     return MaterialApp.router(
       title: 'Lapse',
       debugShowCheckedModeBanner: false,
-      
+
       // KULLANICI SEÇİMİ BURAYA GELİYOR
-      themeMode: currentThemeMode, 
-      
+      themeMode: currentThemeMode,
+
       // Temalar (Sabit)
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      
+
       routerConfig: router,
     );
   }
