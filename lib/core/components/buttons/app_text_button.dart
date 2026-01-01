@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_design/moon_design.dart';
-import '../theme/app_theme.dart';
+import '../../theme/app_theme.dart';
 
 /// Standard Text/Ghost Button for Lapse.
 ///

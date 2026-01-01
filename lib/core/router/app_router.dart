@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Şimdilik importlar hata vermesin diye geçici ekranlar tanımlıyoruz
 // İleride bunları gerçek dosyalarına yönlendireceğiz.
 import '../../features/auth/presentation/login_screen.dart';
-import '../../features/home/presentation/home_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/layout/presentation/main_layout.dart';
-import '../../features/programs/presentation/programs_screen.dart';
+import '../../features/programs/presentation/screens/programs_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/showcase/presentation/components_showcase_screen.dart';
 
@@ -41,10 +41,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null; // No redirect needed
     },
     routes: [
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       ShellRoute(
         builder: (context, state, child) {
           return MainLayout(child: child);
@@ -52,35 +49,29 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: '/dashboard',
-             // Redirect root '/' to '/dashboard' if needed, or stick to '/'
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: HomeScreen(),
-            ), 
+            // Redirect root '/' to '/dashboard' if needed, or stick to '/'
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: HomeScreen()),
           ),
           GoRoute(
             path: '/programs',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: ProgramsScreen(),
-            ),
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: ProgramsScreen()),
           ),
           GoRoute(
             path: '/settings',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: SettingsScreen(),
-            ),
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: SettingsScreen()),
           ),
         ],
       ),
-       // Component Showcase (Keep outside shell or inside as preferred. Outside for now)
+      // Component Showcase (Keep outside shell or inside as preferred. Outside for now)
       GoRoute(
         path: '/showcase',
         builder: (context, state) => const ComponentsShowcaseScreen(),
       ),
       // Root redirect
-      GoRoute(
-         path: '/',
-         redirect: (_, __) => '/dashboard',
-      ),
+      GoRoute(path: '/', redirect: (_, __) => '/dashboard'),
     ],
   );
 });

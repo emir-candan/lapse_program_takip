@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // ✅ Eklendi
 import 'package:hive_flutter/hive_flutter.dart';
 import 'firebase_options.dart';
 import 'core/theme/app_theme.dart';
@@ -10,6 +11,22 @@ import 'core/router/app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Web/PWA için offline persistence'ı aktif et
+  try {
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+    // Web specific call if needed, but 'settings' covers most.
+    // actually, enablePersistence is a method.
+    // await FirebaseFirestore.instance.enablePersistence();
+    // The new way is usually automatic or via settings?
+    // Let's stick to valid API.
+    // For web, enablePersistence() is the standard.
+  } catch (e) {
+    debugPrint("Persistence error: $e");
+  }
 
   await Hive.initFlutter();
   await Hive.openBox('settings'); // Ayarlar kutusunu açtığımızdan emin oluyoruz

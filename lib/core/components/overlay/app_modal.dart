@@ -10,10 +10,32 @@ class AppModal {
     required BuildContext context,
     required Widget child,
   }) {
-    return showMoonModal<T>(
+    // Switching to standard showDialog for "Popup" feel as requested.
+    return showDialog<T>(
       context: context,
-      builder: (context) => MoonModal(
-        child: child,
+      barrierDismissible: true,
+      builder: (context) => Dialog(
+        backgroundColor:
+            Colors.transparent, // We handle styling in the child container
+        insetPadding: EdgeInsets.all(
+          AppTheme.tokens.spacingMd,
+        ), // Margin from screen edges
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            width: double.infinity,
+            constraints: const BoxConstraints(
+              maxWidth: 500,
+            ), // Max width for tablet/desktop
+            decoration: BoxDecoration(
+              color: AppTheme.colors(context).surface,
+              borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+              boxShadow: AppTheme.tokens.cardShadowLight,
+            ),
+            padding: EdgeInsets.all(AppTheme.tokens.spacingMd),
+            child: child,
+          ),
+        ),
       ),
     );
   }

@@ -74,7 +74,7 @@ class MainLayout extends ConsumerWidget {
     // If not, we rely on the URL string matching.
     try {
       final location = GoRouterState.of(context).uri.path;
-      if (location.startsWith('/dashboard')) return "Panel";
+      if (location.startsWith('/dashboard')) return "Takvimim";
       if (location.startsWith('/programs')) return "Programlar";
       if (location.startsWith('/settings')) return "Ayarlar";
       if (location.startsWith('/components')) return "Bileşenler";
@@ -135,8 +135,8 @@ class _SidebarContent extends ConsumerWidget {
               const _SidebarSectionLabel("MENÜ"),
               // Navigation Items
               _SidebarItem(
-                icon: Icons.dashboard_rounded,
-                label: "Panel",
+                icon: Icons.calendar_month_rounded,
+                label: "Takvimim",
                 isSelected: GoRouterState.of(
                   context,
                 ).uri.path.startsWith('/dashboard'),
@@ -336,50 +336,57 @@ class _SidebarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppTheme.colors(context);
-    final activeBg = colors.brand.withValues(alpha: 0.08); // Subtle brand tint
-    final inactiveText = colors.textSecondary;
-    final activeText = colors.brand;
+    // Active state styles
+    final activeBg = colors.brand;
+    final activeFg = colors.onBrand;
+    // Inactive state styles
+    final inactiveIcon = colors.textSecondary;
+    final inactiveText = colors.textPrimary;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Material(
-        color: isSelected ? activeBg : Colors.transparent,
-        borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
-        child: InkWell(
-          onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: isSelected ? activeBg : Colors.transparent,
           borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
-              // Optional: Add border or other decoration for active state
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  color: isSelected ? activeText : inactiveText,
-                  size: 20,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  label,
-                  style: context.moonTypography?.body.text14.copyWith(
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                    color: isSelected ? activeText : colors.textPrimary,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: colors.brand.withValues(alpha: 0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3), // "Hafif kabartılı" effect
                   ),
-                ),
-                if (isSelected) const Spacer(),
-                if (isSelected)
-                  Container(
-                    width: 6,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: activeText,
-                      shape: BoxShape.circle,
+                ]
+              : [],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  Icon(
+                    icon,
+                    color: isSelected ? activeFg : inactiveIcon,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    label,
+                    style: context.moonTypography?.body.text14.copyWith(
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
+                      color: isSelected ? activeFg : inactiveText,
                     ),
                   ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
