@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moon_design/moon_design.dart';
 import '../../theme/app_theme.dart';
 
 class AppImage extends StatelessWidget {
@@ -19,7 +18,9 @@ class AppImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Fetch radius from strict theme system
-    final borderRadius = BorderRadius.circular(AppTheme.tokens.imageDefaultRadius);
+    final borderRadius = BorderRadius.circular(
+      AppTheme.tokens.imageDefaultRadius,
+    );
 
     return ClipRRect(
       borderRadius: borderRadius,
@@ -29,7 +30,8 @@ class AppImage extends StatelessWidget {
         height: height,
         fit: fit,
         errorBuilder: (context, error, stackTrace) => Container(
-          width: width, height: height,
+          width: width,
+          height: height,
           color: AppTheme.colors(context).border,
           child: const Icon(Icons.broken_image),
         ),
