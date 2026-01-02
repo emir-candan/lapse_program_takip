@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Şimdilik importlar hata vermesin diye geçici ekranlar tanımlıyoruz
-// İleride bunları gerçek dosyalarına yönlendireceğiz.
+// Screen imports
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/layout/presentation/main_layout.dart';
-import '../../features/programs/presentation/screens/programs_screen.dart';
+import '../../features/exams/presentation/screens/exams_screen.dart';
+import '../../features/calendar/presentation/screens/schedule_settings_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/showcase/presentation/components_showcase_screen.dart';
 
@@ -54,9 +54,14 @@ final routerProvider = Provider<GoRouter>((ref) {
                 const NoTransitionPage(child: HomeScreen()),
           ),
           GoRoute(
-            path: '/programs',
+            path: '/exams',
             pageBuilder: (context, state) =>
-                const NoTransitionPage(child: ProgramsScreen()),
+                const NoTransitionPage(child: ExamsScreen()),
+          ),
+          GoRoute(
+            path: '/schedule-settings',
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: ScheduleSettingsScreen()),
           ),
           GoRoute(
             path: '/settings',

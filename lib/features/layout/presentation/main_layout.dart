@@ -4,7 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:moon_design/moon_design.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/components/layout/app_card.dart';
+import '../../../core/components/components.dart';
 import '../../auth/presentation/providers/auth_controller.dart';
+import '../../home/presentation/widgets/add_exam_modal.dart';
+import '../../home/presentation/widgets/add_lesson_modal.dart';
+import '../../home/presentation/widgets/add_subject_modal.dart';
 
 class MainLayout extends ConsumerWidget {
   final Widget child;
@@ -62,6 +66,7 @@ class MainLayout extends ConsumerWidget {
           ),
         ),
         backgroundColor: AppTheme.colors(context).background, // Match theme
+        floatingActionButton: const _SpeedDialFab(),
         body: child,
       ),
     );
@@ -74,8 +79,8 @@ class MainLayout extends ConsumerWidget {
     // If not, we rely on the URL string matching.
     try {
       final location = GoRouterState.of(context).uri.path;
-      if (location.startsWith('/dashboard')) return "Takvimim";
-      if (location.startsWith('/programs')) return "Programlar";
+      if (location.startsWith('/dashboard')) return "Ders Programım";
+      if (location.startsWith('/exams')) return "Sınavlar";
       if (location.startsWith('/settings')) return "Ayarlar";
       if (location.startsWith('/components')) return "Bileşenler";
       return "";
@@ -136,7 +141,7 @@ class _SidebarContent extends ConsumerWidget {
               // Navigation Items
               _SidebarItem(
                 icon: Icons.calendar_month_rounded,
-                label: "Takvimim",
+                label: "Ders Programım",
                 isSelected: GoRouterState.of(
                   context,
                 ).uri.path.startsWith('/dashboard'),
@@ -149,13 +154,27 @@ class _SidebarContent extends ConsumerWidget {
                 },
               ),
               _SidebarItem(
-                icon: Icons.calendar_month_rounded,
-                label: "Programlar",
+                icon: Icons.assignment_rounded,
+                label: "Sınavlar",
                 isSelected: GoRouterState.of(
                   context,
-                ).uri.path.startsWith('/programs'),
+                ).uri.path.startsWith('/exams'),
                 onTap: () {
-                  context.go('/programs');
+                  context.go('/exams');
+                  if (Scaffold.of(context).hasDrawer &&
+                      Scaffold.of(context).isDrawerOpen) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+              _SidebarItem(
+                icon: Icons.settings_suggest_rounded,
+                label: "Program Ayarları",
+                isSelected: GoRouterState.of(
+                  context,
+                ).uri.path.startsWith('/schedule-settings'),
+                onTap: () {
+                  context.go('/schedule-settings');
                   if (Scaffold.of(context).hasDrawer &&
                       Scaffold.of(context).isDrawerOpen) {
                     Navigator.of(context).pop();
@@ -388,6 +407,174 @@ class _SidebarItem extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SpeedDialFab extends StatefulWidget {
+  const _SpeedDialFab();
+
+  @override
+  State<_SpeedDialFab> createState() => _SpeedDialFabState();
+}
+
+class _SpeedDialFabState extends State<_SpeedDialFab>
+    with SingleTickerProviderStateMixin {
+  bool _isOpen = false;
+  late AnimationController _controller;
+  late Animation<double> _expandAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      value: _isOpen ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+    _expandAnimation = CurvedAnimation(
+      curve: Curves.fastOutSlowIn,
+      reverseCurve: Curves.easeOutQuad,
+      parent: _controller,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggle() {
+    setState(() {
+      _isOpen = !_isOpen;
+      if (_isOpen) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppTheme.colors(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        _buildStep(
+          icon: Icons.school_rounded,
+          label: "Ders Programa Ekle",
+          color: Colors
+              .indigo, // Changed from brand to info to avoid green overlap
+          onTap: () {
+            _toggle();
+            AppModal.show(context: context, child: const AddLessonModal());
+          },
+          index: 2,
+        ),
+        _buildStep(
+          icon: Icons.assignment_rounded,
+          label: "Sınav Ekle",
+          color: colors.error,
+          onTap: () {
+            _toggle();
+            AppModal.show(context: context, child: const AddExamModal());
+          },
+          index: 1,
+        ),
+        _buildStep(
+          icon: Icons.subject_rounded,
+          label: "Yeni Ders Tanımla",
+          color: colors.warning, // Distinct color for Subject definition
+          onTap: () {
+            _toggle();
+            AppModal.show(context: context, child: const AddSubjectModal());
+          },
+          index: 0,
+        ),
+        const SizedBox(height: 16),
+        FloatingActionButton(
+          heroTag: 'main_fab',
+          onPressed: _toggle,
+          backgroundColor: colors.brand,
+          elevation: 4,
+          child: AnimatedRotation(
+            duration: const Duration(milliseconds: 250),
+            turns: _isOpen ? 0.125 : 0, // 45 degrees
+            child: const Icon(Icons.add, color: Colors.white, size: 28),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStep({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+    required int index,
+  }) {
+    return SizeTransition(
+      sizeFactor: _expandAnimation,
+      child: FadeTransition(
+        opacity: _expandAnimation,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // Label
+              ScaleTransition(
+                scale: _expandAnimation,
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  margin: const EdgeInsets.only(right: 12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.colors(context).surface,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.colors(context).textPrimary,
+                    ),
+                  ),
+                ),
+              ),
+              // Button
+              // Normal FAB: 56px, Small FAB: 40px. Diff: 16px -> 8px padding to center.
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: FloatingActionButton.small(
+                  heroTag: 'fab_$index',
+                  onPressed: onTap,
+                  backgroundColor: color,
+                  elevation: 3,
+                  child: Icon(icon, color: Colors.white, size: 20),
+                ),
+              ),
+            ],
           ),
         ),
       ),

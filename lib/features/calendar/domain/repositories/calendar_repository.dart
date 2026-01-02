@@ -1,19 +1,36 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failures.dart';
-import 'package:lapse/features/calendar/domain/entities/event.dart';
-import 'package:lapse/features/calendar/domain/entities/program.dart';
+import '../entities/lesson.dart';
+import '../entities/exam.dart';
+import '../entities/subject.dart';
+import '../entities/schedule_settings.dart';
 
+/// Abstract repository interface for calendar data
 abstract class CalendarRepository {
-  // Programs
-  Stream<Either<Failure, List<Program>>> getPrograms();
-  Future<Either<Failure, Unit>> addProgram(Program program);
-  Future<Either<Failure, Unit>> deleteProgram(String id);
+  // Lessons
+  List<Lesson> getCachedLessons();
+  Future<Either<Failure, List<Lesson>>> fetchAndCacheLessons();
+  Future<Either<Failure, Unit>> addLesson(Lesson lesson);
+  Future<Either<Failure, Unit>> deleteLesson(String id);
 
-  // Events
-  Stream<Either<Failure, List<Event>>> getEvents({
-    required DateTime start,
-    required DateTime end,
-  });
-  Future<Either<Failure, Unit>> addEvent(Event event);
-  Future<Either<Failure, Unit>> deleteEvent(String id);
+  // Exams
+  List<Exam> getCachedExams();
+  Future<Either<Failure, List<Exam>>> fetchAndCacheExams();
+  Future<Either<Failure, Unit>> addExam(Exam exam);
+  Future<Either<Failure, Unit>> deleteExam(String id);
+
+  // Subjects
+  List<Subject> getCachedSubjects();
+  Future<Either<Failure, List<Subject>>> fetchAndCacheSubjects();
+  Future<Either<Failure, Unit>> addSubject(Subject subject);
+  Future<Either<Failure, Unit>> deleteSubject(String id);
+
+  // Settings
+  ScheduleSettings? getCachedSettings();
+  Future<Either<Failure, ScheduleSettings>> fetchAndCacheSettings();
+  Future<Either<Failure, Unit>> updateSettings(ScheduleSettings settings);
+
+  // Utils
+  bool hasCachedData();
+  Future<void> forceRefresh();
 }
