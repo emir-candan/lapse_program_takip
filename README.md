@@ -8,9 +8,9 @@ Lapse, öğrenciler için tasarlanmış, **Offline-First** mimarisine sahip mode
 - **📚 Ders ve Konu Yönetimi:** Sadece ders ismi değil; öğretmen, sınıf, AKTS ve renk gibi detaylarla derslerinizi tanımlayın.
 - **📅 Dinamik Haftalık Çizelge:** Tanımladığınız slotlara göre derslerinizi yerleştirin ve günlük akışınızı takip edin.
 - **📝 Sınav Takibi:** Yaklaşan sınavlarınızı derslerinizle ilişkilendirerek takip edin.
-- **📶 Offline-First Mimarisi:** İnternet olmasa dahi tüm verilerinize erişin ve düzenleme yapın. İnternet geldiğinde Firebase ile otomatik senkronizasyon sağlanır.
-- **📱 PWA Desteği:** Uygulamayı telefonunuzun ana ekranına ekleyin ve bir mobil uygulama gibi tam ekran deneyimleyin.
-- **🎨 Premium Arayüz:** Moon Design System kullanılarak hazırlanmış, modern, hızlı ve kullanıcı dostu arayüz.
+- **📶 Offline-First Mimarisi:** İnternet olmasa dahi tüm verilerinize erişin ve düzenleme yapın. İnternet geldiğinde Firebase ile otomatik senkronizasyon sağlanır, bu sayede veri kaybı olmaz ve uygulama her zaman stabil çalışır.
+- **📱 PWA Desteği:** Uygulamayı telefonunuzun ana ekranına ekleyin ve bir mobil uygulama gibi tam ekran deneyimleyin. Aşağıda Android cihazlar için indirme bağlantısını da bulabilirsiniz.
+- **🎨 Premium Arayüz:** Moon Design System temeli kullanılarak hazırlanmış, modern, hızlı ve kullanıcı dostu arayüz.
 
 ## 🚀 Teknoloji Yığını
 
@@ -30,3 +30,4 @@ Uygulama, **Clean Architecture** prensiplerinden esinlenen **Feature-First** yap
 
 ---
 *Geliştiren: [Emir Candan](https://github.com/emir-candan)*
+*Android için APK indirme bağlantısı [v0.0.1(https://github.com/emir-candan/lapse_program_takip/releases/download/v0.0.1/lapse-app-arm64-v8a-release-0.0.1.apk)]
