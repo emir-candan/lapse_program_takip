@@ -15,6 +15,7 @@ class ExamAdapter extends TypeAdapter<Exam> {
     final minuteRaw = reader.readInt();
     final subjectIdRaw = reader.readString();
     final descriptionRaw = reader.readString();
+    final classroomRaw = reader.readString();
 
     return Exam(
       id: id,
@@ -24,6 +25,7 @@ class ExamAdapter extends TypeAdapter<Exam> {
       minute: minuteRaw == -1 ? null : minuteRaw,
       subjectId: subjectIdRaw.isEmpty ? null : subjectIdRaw,
       description: descriptionRaw.isEmpty ? null : descriptionRaw,
+      classroom: classroomRaw.isEmpty ? null : classroomRaw,
     );
   }
 
@@ -36,5 +38,6 @@ class ExamAdapter extends TypeAdapter<Exam> {
     writer.writeInt(obj.minute ?? -1);
     writer.writeString(obj.subjectId ?? '');
     writer.writeString(obj.description ?? '');
+    writer.writeString(obj.classroom ?? '');
   }
 }

@@ -122,7 +122,9 @@ class CalendarRepositoryImpl implements CalendarRepository {
           date: timestamp.toDate(),
           hour: data['hour'] as int?,
           minute: data['minute'] as int?,
+          subjectId: data['subjectId'] as String?,
           description: data['description'] as String?,
+          classroom: data['classroom'] as String?,
         );
       }).toList();
 
@@ -148,7 +150,9 @@ class CalendarRepositoryImpl implements CalendarRepository {
             'date': Timestamp.fromDate(exam.date),
             'hour': exam.hour,
             'minute': exam.minute,
+            'subjectId': exam.subjectId,
             'description': exam.description,
+            'classroom': exam.classroom,
             'createdAt': FieldValue.serverTimestamp(),
           })
           .timeout(const Duration(seconds: 5));
