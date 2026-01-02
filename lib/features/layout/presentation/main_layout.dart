@@ -28,55 +28,62 @@ class MainLayout extends ConsumerWidget {
         backgroundColor: AppTheme.colors(context).sidebar,
         child: const _SidebarContent(),
       ),
-      body: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppTheme.colors(context).sidebar,
-              boxShadow: AppTheme.tokens.layoutShadow,
-            ),
-            child: AppBar(
-              backgroundColor: Colors.transparent, // Handled by container
-              scrolledUnderElevation: 0,
-              elevation: 0,
-              centerTitle: true,
-              title: Text(
-                _getTitleForRoute(context),
-                style: context.moonTypography?.heading.text16.copyWith(
-                  fontWeight: FontWeight.bold,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Scaffold(
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.colors(context).sidebar,
+                  boxShadow: AppTheme.tokens.layoutShadow,
+                ),
+                child: AppBar(
+                  backgroundColor: Colors.transparent, // Handled by container
+                  scrolledUnderElevation: 0,
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Text(
+                    _getTitleForRoute(context),
+                    style: context.moonTypography?.heading.text16.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  leading: IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () {
+                      // Open the Root Scaffold's drawer
+                      _scaffoldKey.currentState?.openDrawer();
+                    },
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.notifications_outlined),
+                      onPressed: () {},
+                      tooltip: "Bildirimler",
+                    ),
+                    const SizedBox(width: 8),
+                  ],
                 ),
               ),
-              leading: IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  // Open the Root Scaffold's drawer
-                  _scaffoldKey.currentState?.openDrawer();
-                },
-              ),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.notifications_outlined),
-                  onPressed: () {},
-                  tooltip: "Bildirimler",
-                ),
-                const SizedBox(width: 8),
-              ],
             ),
+            backgroundColor: AppTheme.colors(context).background, // Match theme
+            // floatingActionButton: const _SpeedDialFab(), // Removed
+            body: child,
           ),
-        ),
-        backgroundColor: AppTheme.colors(context).background, // Match theme
-        floatingActionButton: const _SpeedDialFab(),
-        body: child,
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: SafeArea(child: const _SpeedDialFab()),
+          ),
+        ],
       ),
     );
   }
 
   String _getTitleForRoute(BuildContext context) {
     if (context.mounted == false) return "";
-    // GoRouterState might not be directly available on context in some versions,
-    // but usually GoRouterState.of(context) works.
-    // If not, we rely on the URL string matching.
     try {
       final location = GoRouterState.of(context).uri.path;
       if (location.startsWith('/dashboard')) return "Ders Programım";
@@ -498,7 +505,7 @@ class _SpeedDialFabState extends State<_SpeedDialFab>
           },
           index: 0,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         FloatingActionButton(
           heroTag: 'main_fab',
           onPressed: _toggle,

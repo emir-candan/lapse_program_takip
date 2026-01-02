@@ -9,6 +9,7 @@ class Exam extends Equatable {
   final int? minute;
   final String? subjectId; // İlişkili ders (Subject)
   final String? description;
+  final String? classroom; // Sınav yeri / derslik
 
   const Exam({
     required this.id,
@@ -18,6 +19,7 @@ class Exam extends Equatable {
     this.minute,
     this.subjectId,
     this.description,
+    this.classroom,
   });
 
   /// Saat formatı: "14:00" veya null
@@ -35,5 +37,6 @@ class Exam extends Equatable {
     minute,
     subjectId,
     description,
+    classroom,
   ];
 }

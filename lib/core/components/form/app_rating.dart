@@ -24,10 +24,14 @@ class AppRating extends StatelessWidget {
           child: GestureDetector(
             onTap: onChanged != null ? () => onChanged!(index + 1.0) : null,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppTheme.tokens.ratingItemPadding),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppTheme.tokens.ratingItemPadding,
+              ),
               child: Icon(
                 isSelected ? Icons.star_rounded : Icons.star_border_rounded,
-                color: isSelected ? AppTheme.tokens.ratingActiveColor : AppTheme.tokens.ratingInactiveColor,
+                color: isSelected
+                    ? AppTheme.colors(context).brand
+                    : AppTheme.colors(context).textSecondary,
                 size: AppTheme.tokens.ratingStarSize,
               ),
             ),

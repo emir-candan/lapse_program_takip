@@ -121,7 +121,6 @@ class HomeScreen extends ConsumerWidget {
           final dayNum = index + 1;
           final isSelected = selectedDay == dayNum;
           final isToday = dayNum == today;
-          final hasLessons = lessons.any((l) => l.dayOfWeek == dayNum);
 
           return Expanded(
             child: GestureDetector(
@@ -155,16 +154,6 @@ class HomeScreen extends ConsumerWidget {
                             : (isToday ? colors.brand : colors.textSecondary),
                       ),
                     ),
-                    if (hasLessons)
-                      Container(
-                        margin: EdgeInsets.only(top: AppTheme.tokens.spacingXs),
-                        width: 6,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: isSelected ? Colors.white : colors.brand,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
                   ],
                 ),
               ),
@@ -309,31 +298,32 @@ class HomeScreen extends ConsumerWidget {
           height: 52,
           child: Row(
             children: [
-              // Col 1: Time
+              // Col 1: Time (Keep strictly aligned with lessons)
               _buildGridColumn(
                 context,
-                flex: 3,
+                flex: 2, // Reduced from 3
                 child: _buildTimeText(context, index, timeRange, colors),
               ),
-              // Col 2: Classroom
-              _buildGridColumn(context, flex: 2, child: const SizedBox()),
-              // Col 3: Subject
-              _buildGridColumn(
-                context,
-                flex: 5,
-                child: Text(
-                  'Boş Ders',
-                  style: context.moonTypography?.body.text12.copyWith(
-                    color: colors.textSecondary.withValues(alpha: 0.3),
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w500,
+              // Col 2: Left-aligned "Empty" State (Merging remaining space)
+              Expanded(
+                flex:
+                    10, // 2 + 10 = 12 (Total flex matches Lesson Card: 2+5+2+3=12)
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'DERS EKLENMEDİ',
+                      style: context.moonTypography?.body.text10.copyWith(
+                        color: colors.textSecondary.withValues(alpha: 0.4),
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              // Col 4: Teacher
-              _buildGridColumn(context, flex: 3, child: const SizedBox()),
-              // Col 5: Action (Hidden to maintain alignment)
-              SizedBox(width: AppTheme.tokens.spacingLg),
+              // Hidden action alignment spacer if needed, but flex 10 covers it all visually centered.
             ],
           ),
         ),
@@ -369,8 +359,24 @@ class HomeScreen extends ConsumerWidget {
       },
       child: Container(
         margin: EdgeInsets.only(bottom: AppTheme.tokens.spacingSm),
-        child: AppCard(
+        child: Container(
           padding: EdgeInsets.all(AppTheme.tokens.spacingSm + 2),
+          decoration: BoxDecoration(
+            color: colors.surface,
+            borderRadius: BorderRadius.circular(AppTheme.tokens.radiusMd),
+            border: Border.all(
+              color: subjectColor,
+              width: 2,
+              strokeAlign: BorderSide.strokeAlignInside,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
           child: SizedBox(
             height: 52,
             child: Row(
@@ -378,7 +384,7 @@ class HomeScreen extends ConsumerWidget {
                 // Col 1: Time
                 _buildGridColumn(
                   context,
-                  flex: 3,
+                  flex: 2, // Reduced from 3
                   child: _buildTimeText(
                     context,
                     lesson.slotIndex,
@@ -387,25 +393,13 @@ class HomeScreen extends ConsumerWidget {
                     color: subjectColor,
                   ),
                 ),
-                // Col 2: Classroom
+                // Col 2: Subject + AKTS (Moved Left)
                 _buildGridColumn(
                   context,
-                  flex: 2,
-                  child: Text(
-                    subject.classroom ?? '',
-                    style: context.moonTypography?.body.text12.copyWith(
-                      color: colors.textSecondary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                // Col 3: Subject + AKTS
-                _buildGridColumn(
-                  context,
-                  flex: 5,
+                  flex: 7, // Increased from 5
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         subject.name,
@@ -414,6 +408,7 @@ class HomeScreen extends ConsumerWidget {
                           fontWeight: FontWeight.w800,
                         ),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                       if (subject.ects != null)
                         Text(
@@ -422,30 +417,31 @@ class HomeScreen extends ConsumerWidget {
                             color: colors.textSecondary.withValues(alpha: 0.7),
                             fontWeight: FontWeight.w600,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                     ],
                   ),
                 ),
-                // Col 4: Teacher
+                // Col 3: Classroom (Moved Right)
                 _buildGridColumn(
                   context,
-                  flex: 3,
+                  flex: 3, // Increased from 2
                   child: Text(
-                    subject.teacher ?? '',
-                    style: context.moonTypography?.body.text10.copyWith(
+                    subject.classroom ?? '',
+                    style: context.moonTypography?.body.text12.copyWith(
                       color: colors.textSecondary,
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w600,
                     ),
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    maxLines: 1,
                   ),
                 ),
                 // Col 5: Delete
                 AppIconButton(
-                  icon: Icons.delete_outline_rounded,
-                  color: colors.error.withValues(alpha: 0.3),
-                  iconSize: 18,
+                  icon: MoonIcons.controls_close_24_regular,
+                  color: colors.textSecondary.withValues(alpha: 0.5),
+                  iconSize: 20,
                   padding: 4,
                   onTap: () {
                     ref
@@ -523,28 +519,10 @@ class HomeScreen extends ConsumerWidget {
     WidgetRef ref,
     AppColors colors,
   ) {
-    final exams = ref.watch(examsNotifierProvider).valueOrNull ?? [];
-    final today = DateTime.now();
-    final hasExamToday = exams.any(
-      (e) =>
-          e.date.year == today.year &&
-          e.date.month == today.month &&
-          e.date.day == today.day,
-    );
-    if (hasExamToday) {
-      return AppButton(
-        label: "Sınavları Görüntüle",
-        onTap: () => context.push('/exams'),
-        isFullWidth: false,
-      );
-    }
-
-    return Text(
-      "Bugün sınavın yok",
-      style: context.moonTypography?.body.text12.copyWith(
-        color: colors.textSecondary,
-        fontStyle: FontStyle.italic,
-      ),
+    return AppButton(
+      label: "Sınavları Görüntüle",
+      onTap: () => context.push('/exams'),
+      isFullWidth: false,
     );
   }
 
@@ -631,6 +609,15 @@ class HomeScreen extends ConsumerWidget {
                               color: colors.textPrimary,
                             ),
                           ),
+                          if (exam.classroom != null)
+                            Text(
+                              exam.classroom!,
+                              style: context.moonTypography?.body.text10
+                                  .copyWith(
+                                    color: colors.textSecondary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
                           Text(
                             daysUntil == 0
                                 ? 'Bugün!'

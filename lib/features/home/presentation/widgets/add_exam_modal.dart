@@ -17,6 +17,7 @@ class AddExamModal extends ConsumerStatefulWidget {
 class _AddExamModalState extends ConsumerState<AddExamModal> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _classroomController = TextEditingController();
 
   DateTime _selectedDate = DateTime.now().add(const Duration(days: 7));
   TimeOfDay? _selectedTime;
@@ -27,6 +28,7 @@ class _AddExamModalState extends ConsumerState<AddExamModal> {
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
+    _classroomController.dispose();
     super.dispose();
   }
 
@@ -48,6 +50,9 @@ class _AddExamModalState extends ConsumerState<AddExamModal> {
       description: _descriptionController.text.trim().isEmpty
           ? null
           : _descriptionController.text.trim(),
+      classroom: _classroomController.text.trim().isEmpty
+          ? null
+          : _classroomController.text.trim(),
     );
 
     await ref.read(examsNotifierProvider.notifier).addExam(exam);
@@ -97,31 +102,32 @@ class _AddExamModalState extends ConsumerState<AddExamModal> {
               ),
               SizedBox(height: AppTheme.tokens.spacingMd),
 
-              // Sınav adı
-              AppTextInput(
-                hintText: 'Sınav Adı (Örn: Matematik Vize)',
-                controller: _titleController,
-              ),
-              SizedBox(height: AppTheme.tokens.spacingMd),
-
-              // Ders Seçimi (Optional)
+              // Ders Seçimi
+              Text("Ders", style: context.moonTypography?.heading.text14),
+              const SizedBox(height: 8),
               subjectsAsync.when(
                 loading: () => const Center(child: AppLoader()),
                 error: (e, _) => const SizedBox.shrink(),
                 data: (subjects) {
-                  if (subjects.isEmpty) return const SizedBox.shrink();
+                  if (subjects.isEmpty) {
+                    return Text(
+                      "Önce ders eklemelisiniz.",
+                      style: TextStyle(color: colors.error),
+                    );
+                  }
                   return Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                       border: Border.all(color: colors.border),
                       borderRadius: BorderRadius.circular(8),
+                      color: colors.surface,
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _selectedSubjectId,
                         isExpanded: true,
-                        hint: const Text("Ders seçin (Opsiyonel)"),
+                        hint: const Text("Ders Seçiniz"),
                         items: subjects.map((s) {
                           return DropdownMenuItem(
                             value: s.id,
@@ -145,13 +151,31 @@ class _AddExamModalState extends ConsumerState<AddExamModal> {
                             ),
                           );
                         }).toList(),
-                        onChanged: (val) =>
-                            setState(() => _selectedSubjectId = val),
+                        onChanged: (val) {
+                          setState(() {
+                            _selectedSubjectId = val;
+                            // Auto-fill title if empty? Maybe not, usually exams have specific names.
+                          });
+                        },
                       ),
                     ),
                   );
                 },
               ),
+
+              // Sınav adı
+              AppTextInput(
+                hintText: 'Sınav Başlığı (Örn: 1. Yazılı)',
+                controller: _titleController,
+              ),
+              SizedBox(height: AppTheme.tokens.spacingMd),
+
+              // Sınav Yeri / Derslik
+              AppTextInput(
+                hintText: 'Sınav Yeri / Derslik (Örn: B-201)',
+                controller: _classroomController,
+              ),
+              SizedBox(height: AppTheme.tokens.spacingMd),
 
               // Tarih ve Saat seçimi - yan yana
               Row(
