@@ -30,4 +30,4 @@ Uygulama, **Clean Architecture** prensiplerinden esinlenen **Feature-First** yap
 
 ---
 *Geliştiren: [Emir Candan](https://github.com/emir-candan)*
-*Android için APK indirme bağlantısı [v0.0.1(https://github.com/emir-candan/lapse_program_takip/releases/download/v0.0.1/lapse-app-arm64-v8a-release-0.0.1.apk)]
+*Android için APK indirme bağlantısı [APK (arm64-v8a)]([https://github.com/username/repo/releases/latest](https://github.com/emir-candan/lapse_program_takip/releases/download/v0.0.1/lapse-app-arm64-v8a-release-0.0.1.apk))
