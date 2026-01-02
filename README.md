@@ -28,6 +28,7 @@ Uygulama, **Clean Architecture** prensiplerinden esinlenen **Feature-First** yap
 2. **Data Layer:** Cloud Firestore (Remote) ve Hive (Local) entegrasyonu. Veri tutarlılığı için cache-first stratejisi.
 3. **Presentation Layer:** Riverpod ile yönetilen reaktif bileşenler ve Moon Design tabanlı UI elementleri.
 
+**Android için indirme bağlantısı:** [APK](https://github.com/emir-candan/lapse_program_takip/releases/download/v0.0.1/lapse-app-arm64-v8a-release-0.0.1.apk)
+
 ---
 *Geliştiren: [Emir Candan](https://github.com/emir-candan)*
-*Android için APK indirme bağlantısı [APK (arm64-v8a)]([https://github.com/username/repo/releases/latest](https://github.com/emir-candan/lapse_program_takip/releases/download/v0.0.1/lapse-app-arm64-v8a-release-0.0.1.apk))
