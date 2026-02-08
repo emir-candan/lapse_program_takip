@@ -27,11 +27,6 @@ Built with an **Offline-First** architecture, Lapse ensuring that your data is a
 - **📱 PWA Support:** Fully installable on mobile devices with a native-like experience.
 - **🎨 Premium UI/UX:** Built with the **Moon Design System**, featuring a polished, modern, and responsive interface.
 
-## 📸 Screenshots
-
-> **Note:** Screenshots will be added soon.
-
-
 ## 🛠️ Tech Stack
 
 <details>
